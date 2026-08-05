@@ -32,10 +32,8 @@ Ce choix évite les trois pièges de l'essai gratuit (plafond de 25 licences, co
 
 - **PowerShell 7+ recommandé** (fonctionne à partir de 5.1, mais visez 7+). Testé sur 7.4.6.
 - **Module `ExchangeOnlineManagement`** (3.0+) pour les deux étapes, **`Microsoft.Graph.Authentication`** (2.0+) pour l'étape 2. `Microsoft.Graph.Identity.Partner` seulement pour les MSSP.
-- **Licence Microsoft 365 E3 ou Business Premium** pour l'étape 1 : installer les détecteurs, publier les étiquettes, produire le guide.
 - **Licence E5, A5, G5 (ou le module complémentaire Purview Suite) pour l'étape 2.** L'inventaire passe par l'explorateur de contenu, réservé à ces licences. Sans ça, l'étape 1 fonctionne mais le graphique et la carte restent vides.
-- **Rôle Compliance Administrator** pour l'étape 1 (écriture, une seule fois) — et pour l'étape 2, voir *Rôles* ci-dessous.
-- **Journalisation d'audit unifiée activée** dans le tenant. Plusieurs contrôles en dépendent.
+- **Journalisation d'audit unifiée (UAL) activée** dans le tenant. Plusieurs contrôles en dépendent.
 - **Environ sept jours entre les deux étapes**, le temps que Purview indexe le contenu selon les nouveaux détecteurs.
 - **Droit d'écriture** sur `%ProgramData%\Scope25.Purview` (journal) et le dossier Téléchargements (rapports).
 - **Pour les MSSP :** relation GDAP active, appartenance au bon groupe de sécurité, et application autorisée dans le tenant du client.
