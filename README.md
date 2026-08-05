@@ -4,7 +4,7 @@
 
 Outil libre et gratuit qui fait l'inventaire des renseignements personnels dans Microsoft 365 et les relie aux obligations de la **Loi 25**. Utile avant un incident pour être prêt, et après un incident pour savoir ce qui a été touché.
 
-> Version 1.5.0 · Licence Apache 2.0 · [Documentation technique](./docs/TECHNIQUE.md)
+> Version 1.5.0 · Licence Apache 2.0 · [Documentation technique](https://github.com/IronBranded/SCOPE25.Purview/blob/main/TECHNIQUE.md)
 
 ---
 
