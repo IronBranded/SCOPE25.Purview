@@ -166,7 +166,7 @@ Une seule licence sur le compte admin ne suffit probablement pas, même si l'exp
 
 ### PowerShell
 
-- **Visez PowerShell 7+.** L'outil fonctionne à partir de 5.1, mais est développé et testé sur 7.4.6 — préférez 7+ pour ce déploiement.
+- **Visez PowerShell 7+.**
 - Stratégie d'exécution `RemoteSigned` ou moins stricte : `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`
 - Si le dossier vient d'Internet : `Get-ChildItem -Recurse | Unblock-File` avant de l'importer.
 - Sur Windows PowerShell 5.1 seulement, activez TLS 1.2 : `[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12`
