@@ -119,7 +119,7 @@
 
    END OF TERMS AND CONDITIONS
 
-   Copyright [ANNEE] [TITULAIRE DU DROIT D'AUTEUR]
+   Copyright [2026] [Marvens Decayette]
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -144,7 +144,7 @@ qui compte pour un outil d'audit, ou savoir si les regles de detection ont ete
 alterees fait partie de la preuve. Elle permet sans reserve l'usage commercial,
 y compris par un MSSP facturant des services bati sur cet outil.
 
-Remplacez [ANNEE] et [TITULAIRE DU DROIT D'AUTEUR] avant publication.
+ Copyright [2026] [Marvens Decayette]
 
 EN — Apache 2.0 was chosen over MIT for two concrete reasons: it grants an
 explicit patent licence (section 3), which MIT does not, and it requires that
@@ -153,4 +153,4 @@ tool, where knowing whether detection rules were altered is itself part of the
 evidence. It permits commercial use without restriction, including by an MSSP
 charging for services built on this tool.
 
-Replace [ANNEE] and [TITULAIRE DU DROIT D'AUTEUR] before publishing.
+ Copyright [2026] [Marvens Decayette]
