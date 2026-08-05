@@ -252,7 +252,7 @@ Autres limites :
 
 **Apache 2.0.** Usage commercial permis sans restriction, y compris pour un fournisseur qui facture des mandats bâtis sur cet outil. Apache plutôt que MIT pour deux raisons : une licence de brevet explicite, et l'obligation d'indiquer les fichiers modifiés. Ça compte pour un outil d'audit, où savoir si les règles de détection ont été changées fait partie de la preuve.
 
-Voir [CONTRIBUTING.md](./CONTRIBUTING.md) pour les règles, notamment celle qui compte le plus : un détecteur nest accepté que sil repose sur un format publié et vérifiable. Pour signaler une faille, voir [SECURITY.md](./SECURITY.md).
+Voir [CONTRIBUTING.md](https://github.com/IronBranded/SCOPE25.Purview/blob/main/CONTRIBUTING.md) pour les règles, notamment celle qui compte le plus : un détecteur nest accepté que sil repose sur un format publié et vérifiable. Pour signaler une faille, voir [SECURITY.md](https://github.com/IronBranded/SCOPE25.Purview/blob/main/SECURITY.md).
 
 Contributions les plus utiles : tester les détecteurs sur des données réelles, et couvrir les obligations du secteur public (chapitre A-2.1).
 
