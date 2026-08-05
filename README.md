@@ -4,7 +4,6 @@
 
 Outil libre et gratuit qui fait l'inventaire des renseignements personnels dans Microsoft 365 et les relie aux obligations de la **Loi 25**. Utile avant un incident pour être prêt, et après un incident pour savoir ce qui a été touché.
 
-> Version 1.5.0 · Licence Apache 2.0 · [Documentation technique](./docs/TECHNIQUE.md)
 
 ---
 
@@ -20,7 +19,7 @@ L'outil ne répond pas à cette question à votre place. Il rassemble les faits 
 
 ## Prérequis
 
-Ce qu'il faut avant de commencer. Le détail, les options d'achat et les commandes d'installation sont dans [Préparer l'environnement](#préparer-lenvironnement).
+Ce qu'il faut avant de commencer. Le détail, les options d'achat et les commandes d'installation sont:
 
 - **PowerShell 5.1 minimum**, 7.4 ou plus récent recommandé. Testé sur 7.4.6.
 - **Module `ExchangeOnlineManagement`** (3.0+) pour les deux étapes, **`Microsoft.Graph.Authentication`** (2.0+) pour l'étape 2. `Microsoft.Graph.Identity.Partner` seulement pour les MSSP.
