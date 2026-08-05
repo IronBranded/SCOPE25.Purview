@@ -29,8 +29,8 @@ Ce qu'il faut avant de commencer. Le détail, les options d'achat et les command
 - **Rôle Compliance Administrator** pour l'étape 1 (écriture, une seule fois).
 
 #Étape 2
-- **Pour l'étape 2, deux rôles qui ne s'additionnent pas :** un rôle d'accès (*Compliance Administrator*, *Compliance Data Administrator*, *Security Administrator* ou *Global Administrator*) **et en plus** le groupe *Content Explorer List Viewer*. N'attribuez pas *Content Explorer Content Viewer* : l'outil n'en a pas besoin.
-- **Journalisation d'audit unifiée activée** dans le tenant. Plusieurs contrôles en dépendent.
+- **Pour l'étape 2, un rôle d'accès (*Compliance Administrator*, *Compliance Data Administrator*, *Security Administrator* ou *Global Administrator*) **et en plus** le groupe *Content Explorer List Viewer*.
+- **Journalisation d'audit unifiée (UAL) activée** dans le tenant. Plusieurs contrôles en dépendent.
 - **Environ sept jours entre les deux étapes**, le temps que Purview indexe le contenu selon les nouveaux détecteurs.
 - **Droit d'écriture** sur `%ProgramData%\Scope25.Purview` (journal) et le dossier Téléchargements (rapports).
 - **Pour les MSSP :** relation GDAP active, appartenance au bon groupe de sécurité, et application autorisée dans le tenant du client.
