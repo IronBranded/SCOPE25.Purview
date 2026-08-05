@@ -1,0 +1,63 @@
+{
+  "_purpose": "Vecteurs de test pour Test-Scope25SitPattern. Chaque motif du fichier Quebec_SITs.xml doit se declencher sur les cas positifs et rester silencieux sur les cas negatifs. Les negatifs comptent autant que les positifs : c'est eux qui mesurent la precision, et une regle qui attrape tout n'attrape rien d'utile.",
+  "_avertissement": "Toutes les valeurs ci-dessous sont FICTIVES et construites uniquement pour respecter la forme des identifiants. Ne jamais y placer de donnee reelle : ce fichier est destine a etre versionne et partage publiquement.",
+  "_portee": "Ce banc d'essai valide la LOGIQUE des expressions regulieres avec le moteur .NET. Il ne reproduit pas le moteur de Microsoft Purview ni ses regles de proximite et de mots-cles. Un motif qui passe ici reste a confirmer dans un tenant avec Test-DataClassification.",
+  "tests": [
+    {
+      "regexId": "Regex_scope25_ramq_nam",
+      "label": "Numero d'assurance maladie (RAMQ)",
+      "positifs": [
+        { "valeur": "TREM90561225", "note": "femme : mois 56 = 06 + decalage de 50" },
+        { "valeur": "ABCD85041325", "note": "homme, sans separateur" },
+        { "valeur": "LAVO 7203 1548", "note": "groupe par 4, comme imprime sur la carte" },
+        { "valeur": "LAVO 72 03 15 48", "note": "groupe par 2" }
+      ],
+      "negatifs": [
+        { "valeur": "ABCD85131325", "note": "mois 13 : hors des plages 01-12 et 51-62" },
+        { "valeur": "ABCD85043225", "note": "jour 32" },
+        { "valeur": "ABC85041325", "note": "seulement 3 lettres" },
+        { "valeur": "1234567890AB", "note": "chiffres puis lettres : ordre inverse" }
+      ]
+    },
+    {
+      "regexId": "Regex_scope25_transit_institution",
+      "label": "Transit + institution (cheque specimen)",
+      "positifs": [
+        { "valeur": "12345-815", "note": "Desjardins, avec tiret" },
+        { "valeur": "12345 003", "note": "avec espace" },
+        { "valeur": "12345004", "note": "sans separateur" },
+        { "valeur": "98765-006", "note": "Banque Nationale" }
+      ],
+      "negatifs": [
+        { "valeur": "12345-999", "note": "999 n'est pas un code d'institution reconnu" },
+        { "valeur": "123456-003", "note": "succursale a 6 chiffres" },
+        { "valeur": "12345-0031", "note": "chiffre en trop apres l'institution" }
+      ]
+    },
+    {
+      "regexId": "Regex_scope25_qc_postal_code",
+      "label": "Code postal du Quebec",
+      "positifs": [
+        { "valeur": "H2X 1Y4", "note": "Montreal, avec espace" },
+        { "valeur": "G1V4N7", "note": "Quebec, sans espace" },
+        { "valeur": "J0K 1L0", "note": "region rurale" }
+      ],
+      "negatifs": [
+        { "valeur": "M5V 3A8", "note": "Toronto : prefixe hors Quebec" },
+        { "valeur": "K1A 0B1", "note": "Ottawa : prefixe hors Quebec" },
+        { "valeur": "H2X1Y", "note": "tronque" }
+      ]
+    },
+    {
+      "regexId": "Regex_scope25_nirec",
+      "label": "NIREC (etat civil)",
+      "positifs": [
+        { "valeur": "1234567890123", "note": "exactement 13 chiffres" }
+      ],
+      "negatifs": [
+        { "valeur": "123456789012", "note": "12 chiffres" },
+        { "valeur": "12345678901234", "note": "14 chiffres : ne doit pas capter un sous-ensemble" }
+      ]
+    }
+  ]
+}

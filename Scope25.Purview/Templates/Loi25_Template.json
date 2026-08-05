@@ -1,0 +1,728 @@
+{
+  "schemaVersion": "1.0",
+  "module": "Scope25.Purview",
+  "framework": "Loi 25 (Québec) - Loi sur la protection des renseignements personnels dans le secteur privé, telle que modifiée",
+  "scope": "Entreprises et organisations privées. Les obligations propres aux organismes publics et aux partis politiques sont hors portée.",
+  "lastReviewed": "2026-08 (texte P-39.1 à jour au 2026-04-01)",
+  "sourceBasis": "Contrôles dérivés du TEXTE OFFICIEL CONSOLIDÉ de la Loi sur la protection des renseignements personnels dans le secteur privé (RLRQ chapitre P-39.1, à jour au 1er avril 2026, valeur officielle), du Règlement sur l'anonymisation des renseignements personnels (A-2.1, r. 0.1, D. 783-2024, en vigueur le 30 mai 2024), et complétés par les publications de vulgarisation de la Commission d'accès à l'information. En cas de divergence, le texte de loi prévaut - une divergence réelle a d'ailleurs été relevée et corrigée (voir CONS-03).",
+  "methodologyNote": "Trois niveaux, pas deux. 'automated-high-confidence' : vérifié directement par un signal Graph/Purview fiable. 'automated-flagged-for-review' : un signal technique existe mais son interprétation juridique ou son exhaustivité est incertaine - présenté comme piste à valider, jamais comme constat. 'attestation' : obligation organisationnelle ou documentaire, invérifiable depuis la configuration d'un tenant, suivie par téléversement de preuve. Fondre les deux premiers niveaux surestimerait ce que l'outil démontre réellement.",
+  "disclaimerFr": "Ce référentiel est un outil de collecte de preuves techniques et organisationnelles. Il ne constitue pas un avis juridique et ne garantit pas la conformité. Les numéros d'articles ne sont cités que lorsqu'ils ont été confirmés à la source; ailleurs, le thème CAI correspondant est indiqué. Faire valider le référentiel par un conseiller juridique avant toute utilisation commerciale auprès de clients.",
+  "penaltyContext": {
+    "administrativeMonetaryPenaltyFr": "Sanctions administratives pécuniaires pouvant atteindre 2 % du chiffre d'affaires mondial ou 10 millions de dollars (source : CAI).",
+    "penalProceedingsFr": "La Commission peut aussi intenter des poursuites pénales pour infraction à la Loi sur le privé. Il s'agit d'un régime distinct des sanctions administratives.",
+    "accuracyWarningFr": "Plusieurs sources tierces citent des montants de 25 M$ / 4 % et un délai de notification de 72 heures. Le montant de 2 % / 10 M$ ci-dessus provient directement de la CAI; le délai de 72 h relève du RGPD et n'apparaît pas dans la Loi 25. Ne pas reprendre ces chiffres non vérifiés dans un rapport client.",
+    "sapGroundsFr": "L'art. 90.1 énumère limitativement les manquements pouvant donner lieu à une sanction administrative pécuniaire : défaut d'informer (art. 7-8); collecte, utilisation, communication, conservation ou destruction en contravention à la loi; défaut de déclarer un incident; défaut de mesures de sécurité (art. 10); défaut relatif à une décision automatisée (art. 12.1); manquements propres aux agents de renseignements personnels. Les contrôles concernés portent un champ sapExposure - c'est la meilleure base de pondération du risque dans le rapport.",
+    "prescriptionFr": "L'imposition d'une sanction administrative pécuniaire se prescrit par deux ans à compter de la date du manquement (art. 90.10).",
+    "amountVerificationFr": "Le montant de 2 % / 10 M$ provient de la CAI. La disposition chiffrée précise se situe après l'art. 90.11, au-delà de la portion du texte récupérée dans cette passe - le montant n'est donc pas vérifié au texte officiel. À confirmer avant de le citer dans un rapport client."
+  },
+  "domains": [
+    {
+      "id": "GOV",
+      "titleFr": "Gouvernance et responsabilité",
+      "titleEn": "Governance and accountability",
+      "controls": [
+        {
+          "id": "GOV-01",
+          "titleFr": "Responsable de la protection des renseignements personnels désigné",
+          "titleEn": "Privacy officer designated",
+          "obligationFr": "La personne ayant la plus haute autorité exerce la fonction de responsable de la protection des renseignements personnels. Cette fonction peut être déléguée par écrit, en tout ou en partie.",
+          "legalBasis": "P-39.1, art. 3.1 al. 1-2",
+          "cai_theme": "Responsable de la protection des renseignements personnels",
+          "tier": "attestation",
+          "weight": 5,
+          "signal": {
+            "source": "manual",
+            "check": "Confirmer par écrit qui exerce la fonction, et si elle a été déléguée, obtenir l'écrit de délégation.",
+            "notes": "Aucun signal technique ne peut confirmer une désignation organisationnelle. Preuve à téléverser dans le rapport."
+          },
+          "remediationFr": "Désigner formellement le responsable; documenter toute délégation par écrit."
+        },
+        {
+          "id": "GOV-02",
+          "titleFr": "Titre et coordonnées du responsable publiés",
+          "titleEn": "Privacy officer contact published",
+          "obligationFr": "Le titre et les coordonnées du responsable doivent être publiés sur le site Web de l'entreprise ou, à défaut de site Web, rendus accessibles par tout autre moyen approprié.",
+          "legalBasis": "P-39.1, art. 3.1 al. 3",
+          "cai_theme": "Web",
+          "tier": "attestation",
+          "weight": 4,
+          "signal": {
+            "source": "manual",
+            "check": "Vérifier la page publique où figurent le titre et les coordonnées; consigner l'URL.",
+            "notes": "Vérifiable humainement en quelques secondes, mais hors de portée d'un audit de tenant M365 - le site Web n'est pas dans le tenant."
+          },
+          "remediationFr": "Publier le titre et les coordonnées du responsable sur le site Web."
+        },
+        {
+          "id": "GOV-03",
+          "titleFr": "Politiques et pratiques de gouvernance établies et mises en oeuvre",
+          "titleEn": "Governance policies established",
+          "obligationFr": "Les entreprises doivent établir et mettre en oeuvre des politiques et pratiques encadrant leur gouvernance des renseignements personnels, prévoyant notamment : les règles de conservation et de destruction, les rôles et responsabilités du personnel tout au long du cyclé de vie, et un processus de traitement des plaintes.",
+          "legalBasis": "P-39.1, art. 3.2 al. 1",
+          "cai_theme": "Politiques et pratiques de gouvernance",
+          "tier": "attestation",
+          "weight": 5,
+          "signal": {
+            "source": "manual",
+            "check": "Obtenir le document de gouvernance et vérifier qu'il couvre les trois éléments exigés.",
+            "notes": "Le volet 'conservation et destruction' a un pendant technique vérifiable - voir CONS-01. Le reste est documentaire."
+          },
+          "remediationFr": "Rédiger et approuver une politique de gouvernance couvrant les trois éléments exigés."
+        },
+        {
+          "id": "GOV-04",
+          "titleFr": "Information détaillée sur les politiques publiée",
+          "titleEn": "Governance information published",
+          "obligationFr": "L'entreprise doit publier sur son site Web de l'information détaillée au sujet de ses politiques et pratiques.",
+          "legalBasis": "P-39.1, art. 3.2 al. 2",
+          "cai_theme": "Politiques et pratiques de gouvernance",
+          "tier": "attestation",
+          "weight": 3,
+          "signal": {
+            "source": "manual",
+            "check": "Consigner l'URL de la page publiée.",
+            "notes": "Hors tenant."
+          },
+          "remediationFr": "Publier l'information sur le site Web."
+        },
+        {
+          "id": "GOV-05",
+          "titleFr": "Processus de traitement des plaintes en place",
+          "titleEn": "Complaint-handling process",
+          "obligationFr": "Les politiques de gouvernance doivent prévoir un processus de traitement des plaintes relatives à la protection des renseignements personnels.",
+          "legalBasis": "P-39.1, art. 3.2 al. 1",
+          "cai_theme": "Politiques et pratiques de gouvernance",
+          "tier": "attestation",
+          "weight": 3,
+          "signal": {
+            "source": "manual",
+            "check": "Obtenir la procédure écrite et le registre des plaintes, s'il existe.",
+            "notes": "Hors tenant."
+          },
+          "remediationFr": "Documenter le processus de plainte et son point de contact."
+        },
+        {
+          "id": "GOV-06",
+          "titleFr": "Journalisation de l'exécution de l'audit Scope25",
+          "titleEn": "Scope25 run is itself logged",
+          "obligationFr": "Contrôle propre à Scope25, pas une obligation légale : chaque exécution du module est journalisée (utilisateur, date, heure, tenant) afin que le rapport lui-même constitue une preuve datée et attribuable.",
+          "legalBasis": "(contrôle propre à Scope25 - aucune base légale)",
+          "cai_theme": "(contrôle Scope25)",
+          "tier": "automated-high-confidence",
+          "weight": 1,
+          "signal": {
+            "source": "scope25",
+            "check": "Vérifier la présence et l'intégrité du journal opérationnel local (Write-Scope25AuditLog).",
+            "notes": "Ajouté parce que Purview n'expose nativement aucun champ 'créé par / créé le' pour un SIT ou une étiquette - sans ce journal, rien ne documente qui a lancé la configuration ni quand."
+          },
+          "remediationFr": "Conserver le dossier de journal hors du dossier Téléchargements et le sauvegarder avec les autres preuves d'audit."
+        },
+        {
+          "id": "GOV-07",
+          "titleFr": "Politiques approuvées par le responsable et proportionnées",
+          "titleEn": "Policies approved by the privacy officer and proportionate",
+          "obligationFr": "Les politiques et pratiques de gouvernance doivent être proportionnées à la nature et à l'importance des activités de l'entreprise, et être approuvées par le responsable de la protection des renseignements personnels.",
+          "legalBasis": "P-39.1, art. 3.2 al. 1 in fine",
+          "cai_theme": "",
+          "tier": "attestation",
+          "weight": 3,
+          "signal": {
+            "source": "manual",
+            "check": "Vérifier la trace écrite de l'approbation par le responsable.",
+            "notes": "Exigence explicite du texte de loi, absente de la page de vulgarisation de la CAI - repérée uniquement en lisant l'art. 3.2 intégralement. Une politique excellente mais non approuvée par le responsable ne satisfait pas l'article."
+          },
+          "remediationFr": "Faire approuver formellement les politiques par le responsable et conserver la trace de l'approbation."
+        }
+      ]
+    },
+    {
+      "id": "CONS",
+      "titleFr": "Conservation, destruction et anonymisation",
+      "titleEn": "Retention, destruction and anonymization",
+      "controls": [
+        {
+          "id": "CONS-01",
+          "titleFr": "Règles de conservation et de destruction appliquées techniquement",
+          "titleEn": "Retention and disposition policies configured",
+          "obligationFr": "Les politiques de gouvernance doivent prévoir des règles applicables à la conservation et à la destruction des renseignements personnels.",
+          "legalBasis": "P-39.1, art. 3.2 al. 1 et art. 23 al. 1",
+          "cai_theme": "Politiques et pratiques de gouvernance",
+          "tier": "automated-high-confidence",
+          "weight": 5,
+          "signal": {
+            "source": "purview",
+            "check": "Get-RetentionCompliancePolicy : au moins une politique de rétention active, et au moins une avec action de suppression.",
+            "notes": "Signal fort : une politique de rétention avec disposition est la traduction technique directe de l'obligation. L'absence totale de politique est un constat défendable."
+          },
+          "remediationFr": "Créer des politiques de rétention Purview reflétant les durées de conservation documentées, avec disposition automatique à échéance.",
+          "sapExposure": "art. 90.1 par. 2 - conserver ou détruire en contravention à la loi"
+        },
+        {
+          "id": "CONS-02",
+          "titleFr": "Étiquettes de rétention publiées et appliquées",
+          "titleEn": "Retention labels published",
+          "obligationFr": "Complément technique à CONS-01 : les durées de conservation doivent être applicables au contenu réel, pas seulement documentées.",
+          "legalBasis": "P-39.1, art. 23 al. 1",
+          "cai_theme": "Politiques et pratiques de gouvernance",
+          "tier": "automated-high-confidence",
+          "weight": 3,
+          "signal": {
+            "source": "purview",
+            "check": "Get-ComplianceTag / Get-RetentionCompliancePolicy : présence d'étiquettes de rétention et d'au moins une politique de publication.",
+            "notes": "Vérifier le nom exact du cmdlet dans le tenant - Get-ComplianceTag n'a pas pu être validé contre un tenant réel ici."
+          },
+          "remediationFr": "Publier des étiquettes de rétention couvrant les catégories de renseignements personnels détenues."
+        },
+        {
+          "id": "CONS-03",
+          "titleFr": "Anonymisation conforme au Règlement (processus en 6 étapes)",
+          "titleEn": "Anonymization compliant with the regulation",
+          "obligationFr": "L'anonymisation est permise comme solution de rechange à la destruction, mais seulement selon les critères et modalités du Règlement sur l'anonymisation : établir les fins AVANT de débuter (art. 3), superviser par une personne compétente (art. 4), retirer d'abord les identifiants directs puis analyser les risques de réidentification selon les critères d'individualisation, de corrélation et d'inférence (art. 5), établir les techniques et mesures de protection (art. 6), refaire une analyse de risque après mise en oeuvre démontrant des risques résiduels TRÈS FAIBLES - un risque nul n'est pas exigé (art. 7), et réévaluer périodiquement en tenant compte des avancées technologiques (art. 8).",
+          "legalBasis": "P-39.1, art. 23 al. 3; Règlement sur l'anonymisation des renseignements personnels (A-2.1, r. 0.1), art. 3 à 8",
+          "cai_theme": "",
+          "tier": "attestation",
+          "weight": 4,
+          "signal": {
+            "source": "manual",
+            "check": "Si le client anonymise : obtenir la preuve de chacune des six étapes, en particulier les deux analyses de risque de réidentification (préliminaire et post-mise en oeuvre).",
+            "notes": "CORRECTION IMPORTANTE APPORTÉE À CE RÉFÉRENTIEL. La version précédente affirmait que l'anonymisation était interdite faute de règlement. C'est faux : le Règlement sur l'anonymisation (D. 783-2024) est en vigueur depuis le 30 mai 2024. L'erreur venait de la page de vulgarisation de la CAI, dont le texte décrit encore l'état antérieur. Leçon retenue et appliquée à tout le référentiel : citer le texte réglementaire, pas la page de vulgarisation."
+          },
+          "remediationFr": "Documenter le processus d'anonymisation selon les six étapes du Règlement; désigner la personne compétente qui le supervise.",
+          "sapExposure": "art. 90.1 par. 2 - conserver ou détruire en contravention à la loi"
+        },
+        {
+          "id": "CONS-04",
+          "titleFr": "Registre des anonymisations tenu",
+          "titleEn": "Anonymization register maintained",
+          "obligationFr": "Toute organisation qui anonymise doit consigner dans un registre : une description des renseignements anonymisés, les fins d'utilisation prévues, les techniques et mesures de protection établies, et la date de l'analyse des risques de réidentification (ainsi que celle de sa mise à jour).",
+          "legalBasis": "Règlement sur l'anonymisation des renseignements personnels (A-2.1, r. 0.1), art. 9",
+          "cai_theme": "",
+          "tier": "attestation",
+          "weight": 3,
+          "signal": {
+            "source": "manual",
+            "check": "Obtenir le registre et vérifier les quatre champs exigés.",
+            "notes": "DEUXIÈME REGISTRE OBLIGATOIRE, distinct du registre des incidents - très peu connu, et absent de la quasi-totalité des listes de conformité Loi 25 en circulation. Ne s'applique que si le client anonymise réellement; sinon, marquer « non applicable » plutôt qu'échec."
+          },
+          "remediationFr": "Créer le registre d'anonymisation avec les quatre champs réglementaires."
+        },
+        {
+          "id": "CONS-05",
+          "titleFr": "Conservation minimale d'un an des renseignements ayant servi à une décision",
+          "titleEn": "One-year retention of decision inputs",
+          "obligationFr": "Les renseignements personnels utilisés pour prendre une décision relative à une personne concernée doivent être conservés pendant au moins un an suivant la décision.",
+          "legalBasis": "P-39.1, art. 11 al. 2",
+          "cai_theme": "",
+          "tier": "automated-flagged-for-review",
+          "weight": 3,
+          "signal": {
+            "source": "purview",
+            "check": "Comparer les durées des politiques de rétention aux processus décisionnels du client (RH, crédit, sélection).",
+            "notes": "Piège de sens inverse : ici, une politique de suppression TROP agressive crée le manquement. La plupart des audits ne cherchent que la sur-rétention; celui-ci cherche la sous-rétention. Un signal technique existe (durées de rétention configurées) mais son rattachement dépend de quels traitements sont décisionnels - d'où le niveau « à valider »."
+          },
+          "remediationFr": "Vérifier qu'aucune politique de suppression n'efface avant un an les renseignements ayant fondé une décision."
+        }
+      ]
+    },
+    {
+      "id": "SENS",
+      "titleFr": "Renseignements sensibles et classification",
+      "titleEn": "Sensitive information and classification",
+      "controls": [
+        {
+          "id": "SENS-01",
+          "titleFr": "Détection des renseignements personnels sensibles en place",
+          "titleEn": "Sensitive information types déployéd",
+          "obligationFr": "Un renseignement est sensible lorsqu'il suscite, par sa nature notamment médicale ou biométrique, ou autrement intime, un haut degré d'attente raisonnable en matière de vie privée. On ne peut protéger ce qu'on ne détecte pas.",
+          "legalBasis": "P-39.1, art. 10 et art. 12 al. 4 par. 2 (définition de « sensible »)",
+          "cai_theme": "Renseignements sensibles",
+          "tier": "automated-high-confidence",
+          "weight": 5,
+          "signal": {
+            "source": "purview",
+            "check": "Présence des SIT Scope25 (RAMQ, état civil, chèque spécimen) et des types intégrés pertinents.",
+            "notes": "Alimenté par Import-Scope25QuebecSIT. Le NAM (RAMQ) est un renseignement médical, donc explicitement sensible au sens de la Loi 25. Seuls des détecteurs appuyés sur un format publié sont déployés : ceux du permis d'armes à feu et des permis récréatifs ont été retirés faute de format officiel, plutôt que conservés à faible confiance."
+          },
+          "remediationFr": "Importer les SIT Québec et vérifier l'activation des types intégrés (NAS, permis de conduire, passeport)."
+        },
+        {
+          "id": "SENS-02",
+          "titleFr": "Étiquettes de sensibilité publiées",
+          "titleEn": "Sensitivity labels published",
+          "obligationFr": "Traduction opérationnelle de la classification : les catégories Santé / Identité / Financier / Adresse doivent exister et être publiées aux utilisateurs.",
+          "legalBasis": "P-39.1, art. 10",
+          "cai_theme": "Renseignements sensibles",
+          "tier": "automated-high-confidence",
+          "weight": 4,
+          "signal": {
+            "source": "purview",
+            "check": "Get-Label / Get-LabelPolicy : présence des quatre étiquettes Scope25 et d'au moins une politique de publication.",
+            "notes": "Alimenté par Publish-Scope25SensitivityLabels."
+          },
+          "remediationFr": "Publier les étiquettes aux groupes concernés."
+        },
+        {
+          "id": "SENS-03",
+          "titleFr": "Couverture réelle de l'étiquetage (volumétrie)",
+          "titleEn": "Label coverage measured",
+          "obligationFr": "Mesure de l'exposition réelle : combien de documents portent effectivement chaque catégorie.",
+          "legalBasis": "P-39.1, art. 10",
+          "cai_theme": "Renseignements sensibles",
+          "tier": "automated-flagged-for-review",
+          "weight": 3,
+          "signal": {
+            "source": "purview",
+            "check": "Get-Scope25LabelCoverage (Export-ContentExplorerData -Aggregate).",
+            "notes": "Classé 'à valider' et non 'automatisé haute confiance' : un compte de zéro peut signifier soit aucune donnée sensible, soit un étiquetage non déployé. Les deux se ressemblent dans les chiffres et se distinguent seulement par le contexte."
+          },
+          "remediationFr": "Déployer l'étiquetage automatique (E5 / IP P2 requis) ou faire un exercice d'étiquetage manuel pilote."
+        },
+        {
+          "id": "SENS-04",
+          "titleFr": "Politiques DLP couvrant les renseignements personnels",
+          "titleEn": "DLP policies covering personal information",
+          "obligationFr": "Mesures de sécurité propres à empêcher la communication non autorisée de renseignements personnels.",
+          "legalBasis": "P-39.1, art. 10",
+          "cai_theme": "Renseignements sensibles",
+          "tier": "automated-high-confidence",
+          "weight": 4,
+          "signal": {
+            "source": "purview",
+            "check": "Get-DlpCompliancePolicy : au moins une politique DLP active référençant des SIT de renseignements personnels.",
+            "notes": "Le contrôle vérifie l'existence et l'état actif, pas la qualité des règles - une politique DLP en mode test compte différemment d'une politique appliquée."
+          },
+          "remediationFr": "Créer des politiques DLP couvrant Exchange, SharePoint, OneDrive et Teams pour les SIT Québec.",
+          "sapExposure": "art. 90.1 par. 4 - défaut de prendre les mesures de sécurité de l'art. 10"
+        },
+        {
+          "id": "SENS-05",
+          "titleFr": "Biométrie : déclaration à la Commission",
+          "titleEn": "Biometric database disclosed to CAI",
+          "obligationFr": "La création d'une banque de caractéristiques ou de mesures biométriques doit être divulguée à la Commission au plus tard 60 jours AVANT sa mise en service. Toute technique biométrique de vérification d'identité doit être précédée d'un avis à la Commission et du consentement exprès de la personne.",
+          "legalBasis": "Loi concernant le cadre juridique des technologies de l'information (C-1.1) - articlé NON vérifié à la source dans cette passe; la CAI énonce le délai de 60 jours, mais la disposition habilitante n'est pas dans P-39.1. À confirmer avant usage client.",
+          "cai_theme": "Biométrie",
+          "tier": "attestation",
+          "weight": 4,
+          "signal": {
+            "source": "manual",
+            "check": "Demander si une technique biométrique est utilisée (contrôle d'accès, authentification, pointage). Si oui : preuve de déclaration à la CAI et délai de 60 jours respecté.",
+            "notes": "Délai de 60 jours souvent ignoré. Attention : l'authentification biométrique locale d'un appareil (Windows Hello, Face ID) ne crée généralement pas de banque biométrique côté organisation - à distinguer d'un système de pointage biométrique centralisé, qui en crée une."
+          },
+          "remediationFr": "Déclarer toute banque biométrique à la CAI au moins 60 jours avant la mise en service; obtenir le consentement exprès."
+        }
+      ]
+    },
+    {
+      "id": "SEC",
+      "titleFr": "Sécurité et contrôle d'accès",
+      "titleEn": "Security and access control",
+      "controls": [
+        {
+          "id": "SEC-01",
+          "titleFr": "Journalisation d'audit activée",
+          "titleEn": "Unified audit logging enabled",
+          "obligationFr": "Sans journalisation, une entreprise ne peut ni détecter un incident de confidentialité, ni le documenter dans son registre, ni en établir la portée.",
+          "legalBasis": "P-39.1, art. 10",
+          "cai_theme": "Incidents de confidentialité",
+          "tier": "automated-high-confidence",
+          "weight": 5,
+          "signal": {
+            "source": "purview",
+            "check": "Get-AdminAuditLogConfig : UnifiedAuditLogIngestionEnabled = True.",
+            "notes": "Contrôle fondateur : son échec invalide en pratique plusieurs contrôles du domaine INC."
+          },
+          "remediationFr": "Activer la journalisation d'audit unifiée dans le portail Purview.",
+          "sapExposure": "art. 90.1 par. 4 - défaut de prendre les mesures de sécurité de l'art. 10"
+        },
+        {
+          "id": "SEC-02",
+          "titleFr": "Fenêtre de rétention des journaux d'audit",
+          "titleEn": "Audit log retention window",
+          "obligationFr": "La capacité d'enquêter sur un incident dépend directement de la profondeur d'historique disponible.",
+          "legalBasis": "P-39.1, art. 10",
+          "cai_theme": "Incidents de confidentialité",
+          "tier": "automated-high-confidence",
+          "weight": 3,
+          "signal": {
+            "source": "graph",
+            "check": "Vérifier le niveau de licence et les politiques de rétention d'audit applicables.",
+            "notes": "L'audit Standard offre 180 jours; les fenêtres plus longues (1 an et plus) exigent E5 ou un module complémentaire. Ne pas présenter une limite de licence comme un manquement de conformité - c'est une contrainte budgétaire à signaler, pas une faute."
+          },
+          "remediationFr": "Évaluer si la fenêtre de rétention suffit au profil de risque; envisager une rétention d'audit prolongée."
+        },
+        {
+          "id": "SEC-03",
+          "titleFr": "Authentification multifacteur sur les comptes privilégiés",
+          "titleEn": "MFA on privileged accounts",
+          "obligationFr": "Mesure de sécurité raisonnable attendue compte tenu de la sensibilité des renseignements détenus.",
+          "legalBasis": "P-39.1, art. 10",
+          "cai_theme": "(mesures de sécurité)",
+          "tier": "automated-high-confidence",
+          "weight": 5,
+          "signal": {
+            "source": "graph",
+            "check": "Politiques d'accès conditionnel exigeant la MFA pour les rôles d'administration.",
+            "notes": "Un compte d'administration sans MFA donnant accès à des renseignements personnels sensibles est le constat le plus facilement défendable d'un rapport d'audit."
+          },
+          "remediationFr": "Exiger la MFA pour tous les rôles privilégiés via l'accès conditionnel.",
+          "sapExposure": "art. 90.1 par. 4 - défaut de prendre les mesures de sécurité de l'art. 10"
+        },
+        {
+          "id": "SEC-04",
+          "titleFr": "Inventaire des accès externes et invités",
+          "titleEn": "Guest and external access inventory",
+          "obligationFr": "Savoir qui, hors de l'organisation, a accès à des renseignements personnels.",
+          "legalBasis": "P-39.1, art. 10 et art. 20 (accès limité au nécessaire à l'exercice des fonctions)",
+          "cai_theme": "(mesures de sécurité)",
+          "tier": "automated-high-confidence",
+          "weight": 4,
+          "signal": {
+            "source": "graph",
+            "check": "Dénombrer les utilisateurs invités et les partages externes actifs.",
+            "notes": "Fournit un dénombrement, pas un jugement : un invité légitime et un accès oublié se ressemblent dans les données. À présenter comme inventaire à réviser."
+          },
+          "remediationFr": "Réviser périodiquement les accès invités; retirer les accès inactifs.",
+          "sapExposure": "art. 90.1 par. 4 - défaut de prendre les mesures de sécurité de l'art. 10"
+        },
+        {
+          "id": "SEC-05",
+          "titleFr": "Paramètres de partage externe par défaut",
+          "titleEn": "Default external sharing settings",
+          "obligationFr": "Les paramètres de confidentialité par défaut d'un produit ou service technologique offert au public doivent assurer le plus haut niveau de confidentialité, sans intervention de la personne concernée.",
+          "legalBasis": "P-39.1, art. 9.1",
+          "cai_theme": "Paramètres de confidentialité",
+          "tier": "automated-flagged-for-review",
+          "weight": 4,
+          "signal": {
+            "source": "graph",
+            "check": "Paramètres de partage SharePoint / OneDrive / Teams au niveau du tenant.",
+            "notes": "Classé 'à valider' pour une raison de portée juridique, pas technique : l'obligation vise les produits offerts AU PUBLIC. L'appliquer telle quelle à un intranet interne serait une surinterprétation. Le signal technique reste utile, mais son rattachement juridique doit être confirmé cas par cas."
+          },
+          "remediationFr": "Restreindre le partage externe par défaut; exiger l'authentification des destinataires externes."
+        }
+      ]
+    },
+    {
+      "id": "INC",
+      "titleFr": "Incidents de confidentialité",
+      "titleEn": "Confidentiality incidents",
+      "controls": [
+        {
+          "id": "INC-01",
+          "titleFr": "Registre des incidents de confidentialité tenu",
+          "titleEn": "Confidentiality incident register maintained",
+          "obligationFr": "Toute entreprise doit tenir un registre de TOUS les incidents de confidentialité, y compris ceux qui ne présentent pas de risque de préjudice sérieux. Le registre doit être transmis à la Commission sur demande.",
+          "legalBasis": "P-39.1, art. 3.8; Règlement sur les incidents de confidentialité (A-2.1, r. 3.1)",
+          "cai_theme": "Incidents de confidentialité (art. 3.5 à 3.8 LPRPSP)",
+          "tier": "attestation",
+          "weight": 5,
+          "signal": {
+            "source": "manual",
+            "check": "Obtenir le registre et vérifier qu'il consigne aussi les incidents sans préjudice sérieux.",
+            "notes": "Erreur fréquente : ne consigner que les incidents graves. L'obligation vise tous les incidents."
+          },
+          "remediationFr": "Mettre en place un registre couvrant tous les incidents, quel que soit le niveau de préjudice."
+        },
+        {
+          "id": "INC-02",
+          "titleFr": "Procédure d'évaluation du risque de préjudice sérieux",
+          "titleEn": "Serious-harm assessment procedure",
+          "obligationFr": "L'entreprise doit évaluer si l'incident présente un risque de préjudice sérieux, en consultant son responsable de la protection des renseignements personnels.",
+          "legalBasis": "P-39.1, art. 3.7",
+          "cai_theme": "Incidents de confidentialité",
+          "tier": "attestation",
+          "weight": 4,
+          "signal": {
+            "source": "manual",
+            "check": "Obtenir la grille ou procédure d'analyse et vérifier qu'elle prévoit la consultation du responsable.",
+            "notes": "ATTENTION - À NE PAS PROPAGER : plusieurs sources tierces affirment un délai de notification de 72 heures. Ce délai vient du RGPD européen, PAS de la Loi 25. La CAI exige que l'entreprise 's'empresse' d'aviser - une obligation de diligence, sans délai chiffré. Ne pas inscrire '72 h' dans un rapport client."
+          },
+          "remediationFr": "Documenter la grille d'analyse du préjudice sérieux et la chaîne de décision."
+        },
+        {
+          "id": "INC-03",
+          "titleFr": "Avis à la Commission et aux personnes concernées",
+          "titleEn": "Notification to CAI and affected persons",
+          "obligationFr": "En cas d'incident présentant un risque de préjudice sérieux, l'entreprise doit s'empresser d'aviser la Commission ainsi que les personnes concernées.",
+          "legalBasis": "P-39.1, art. 3.5 al. 2",
+          "cai_theme": "Incidents de confidentialité",
+          "tier": "attestation",
+          "weight": 5,
+          "signal": {
+            "source": "manual",
+            "check": "Vérifier l'existence d'une procédure d'avis et, le cas échéant, les avis déjà transmis.",
+            "notes": "La CAI publie un formulaire de déclaration; son utilisation est la preuve la plus simple à conserver."
+          },
+          "remediationFr": "Documenter la procédure d'avis et pré-remplir les coordonnées du formulaire CAI.",
+          "sapExposure": "art. 90.1 par. 3 - défaut de déclarer un incident à la Commission ou aux personnes concernées"
+        },
+        {
+          "id": "INC-04",
+          "titleFr": "Responsabilité maintenue malgré la sous-traitance",
+          "titleEn": "Accountability retained with third parties",
+          "obligationFr": "Lorsque des renseignements personnels sont confiés à des tiers pour conservation, l'entreprise demeure responsable de l'ensemble de ses obligations en cas d'incident : mesures à prendre, registre, avis.",
+          "legalBasis": "P-39.1, art. 18.3",
+          "cai_theme": "Incidents de confidentialité",
+          "tier": "attestation",
+          "weight": 4,
+          "signal": {
+            "source": "manual",
+            "check": "Inventorier les sous-traitants détenant des renseignements personnels et vérifier les ententes écrites.",
+            "notes": "Point particulièrement pertinent pour un client de MSSP : le recours à un fournisseur infonuagique ou à un MSSP ne transfère pas la responsabilité légale."
+          },
+          "remediationFr": "Inventorier les tiers; prévoir contractuellement la notification d'incident et les obligations afférentes."
+        },
+        {
+          "id": "INC-05",
+          "titleFr": "Mesures de réduction du préjudice et de prévention de la récurrence",
+          "titleEn": "Harm mitigation and recurrence prevention",
+          "obligationFr": "Dès qu'elle a des motifs de croire qu'un incident s'est produit, l'entreprise doit prendre les mesures raisonnables pour diminuer les risques de préjudice ET éviter que de nouveaux incidents de même nature ne se produisent - obligation qui existe indépendamment de tout seuil de préjudice sérieux.",
+          "legalBasis": "P-39.1, art. 3.5 al. 1",
+          "cai_theme": "",
+          "tier": "attestation",
+          "weight": 4,
+          "signal": {
+            "source": "manual",
+            "check": "Vérifier qu'il existe une procédure post-incident couvrant la récurrence, pas seulement la notification.",
+            "notes": "Souvent oublié : l'obligation de prévention de la récurrence s'applique même quand l'incident ne présente aucun risque de préjudice sérieux et n'a donc pas à être déclaré."
+          },
+          "remediationFr": "Ajouter une étape « analyse des causes et prévention de la récurrence » à la procédure d'incident."
+        }
+      ]
+    },
+    {
+      "id": "XBORDER",
+      "titleFr": "Communication hors Québec",
+      "titleEn": "Cross-border transfers",
+      "controls": [
+        {
+          "id": "XB-01",
+          "titleFr": "Emplacement des données du tenant identifié",
+          "titleEn": "Tenant data residency identified",
+          "obligationFr": "Point de départ factuel du contrôle XB-02 : savoir où résident réellement les données avant d'évaluer s'il y a communication hors Québec.",
+          "legalBasis": "P-39.1, art. 17 (contexte factuel)",
+          "cai_theme": "Communication de renseignements personnels hors Québec",
+          "tier": "automated-high-confidence",
+          "weight": 3,
+          "signal": {
+            "source": "graph",
+            "check": "Get-MgOrganization : emplacement de données préféré et pays du tenant.",
+            "notes": "Nuance importante : Microsoft offre la résidence des données au Canada, mais 'au Canada' n'est pas 'au Québec'. La Loi 25 vise la communication hors Québec, ce qui peut inclure Toronto. Ne pas conclure automatiquement qu'un tenant canadien est conforme."
+          },
+          "remediationFr": "Documenter l'emplacement réel des données par charge de travail."
+        },
+        {
+          "id": "XB-02",
+          "titleFr": "EFVP réalisée avant toute communication hors Québec",
+          "titleEn": "Privacy impact assessment before cross-border transfer",
+          "obligationFr": "Avant de communiquer un renseignement personnel à l'extérieur du Québec, l'organisation doit procéder à une évaluation des facteurs relatifs à la vie privée. La communication n'est permise que si l'évaluation démontre une protection adéquate, et doit faire l'objet d'une entente écrite.",
+          "legalBasis": "P-39.1, art. 17",
+          "cai_theme": "Communication de renseignements personnels hors Québec",
+          "tier": "attestation",
+          "weight": 5,
+          "signal": {
+            "source": "manual",
+            "check": "Obtenir l'EFVP et l'entente écrite pour chaque flux hors Québec identifié.",
+            "notes": "Déclenché par XB-01. La CAI publie un guide d'EFVP; s'y référer plutôt que d'inventer une méthodologie."
+          },
+          "remediationFr": "Réaliser une EFVP par flux transfrontalier et conclure les ententes écrites requises."
+        },
+        {
+          "id": "XB-03",
+          "titleFr": "EFVP pour les projets de systèmes d'information",
+          "titleEn": "Privacy impact assessment for system projects",
+          "obligationFr": "Une EFVP doit être menée pour tout projet d'acquisition, de développement ou de refonte de système d'information ou de prestation électronique de services impliquant des renseignements personnels.",
+          "legalBasis": "P-39.1, art. 3.3 al. 1-2",
+          "cai_theme": "Évaluation des facteurs relatifs à la vie privée",
+          "tier": "attestation",
+          "weight": 4,
+          "signal": {
+            "source": "manual",
+            "check": "Vérifier l'existence d'un processus d'EFVP intégré à la gouvernance de projet.",
+            "notes": "Directement pertinent pour un MSSP : le déploiement même de nouveaux outils M365 chez un client peut déclencher cette obligation."
+          },
+          "remediationFr": "Intégrer un déclencheur d'EFVP au processus d'approbation de projet."
+        }
+      ]
+    },
+    {
+      "id": "DROITS",
+      "titleFr": "Droits des personnes et transparence",
+      "titleEn": "Individual rights and transparency",
+      "controls": [
+        {
+          "id": "DR-01",
+          "titleFr": "Politique de confidentialité publiée en termes simples et clairs",
+          "titleEn": "Privacy policy published in plain language",
+          "obligationFr": "Les organisations recueillant des renseignements personnels par un moyen technologique doivent rédiger une politique de confidentialité en termes simples et clairs, la diffuser, et aviser des modifications.",
+          "legalBasis": "P-39.1, art. 8.2",
+          "cai_theme": "Politique de confidentialité",
+          "tier": "attestation",
+          "weight": 4,
+          "signal": {
+            "source": "manual",
+            "check": "Consigner l'URL et la date de dernière révision.",
+            "notes": "Hors tenant."
+          },
+          "remediationFr": "Publier la politique et prévoir un mécanisme d'avis de modification."
+        },
+        {
+          "id": "DR-02",
+          "titleFr": "Consentement manifeste, libre, éclairé et par finalité",
+          "titleEn": "Valid, purpose-specific consent",
+          "obligationFr": "Le consentement doit être manifeste, libre, éclairé et donné à des fins précises, demandé pour chacune de ces fins en termes simples et clairs. Une demande écrite doit être présentée distinctement de toute autre information. Un consentement exprès est requis avant d'utiliser un renseignement sensible à une fin différente de celle de la collecte.",
+          "legalBasis": "P-39.1, art. 14, et art. 12 al. 1 / art. 13 al. 2 (consentement exprès si sensible)",
+          "cai_theme": "Consentement",
+          "tier": "attestation",
+          "weight": 5,
+          "signal": {
+            "source": "manual",
+            "check": "Réviser les formulaires de collecte et les bandeaux de consentement.",
+            "notes": "La CAI publie des lignes directrices sur les critères de validité du consentement - s'y référer."
+          },
+          "remediationFr": "Réviser les mécanismes de consentement pour la granularité par finalité et la présentation distincte."
+        },
+        {
+          "id": "DR-03",
+          "titleFr": "Transparence au moment de la collecte",
+          "titleEn": "Transparency at collection",
+          "obligationFr": "Au moment de la collecte, l'organisation doit informer notamment des fins, des moyens, des droits d'accès et de rectification, du droit de retirer le consentement, des tiers concernés et de la possibilité de communication hors Québec.",
+          "legalBasis": "P-39.1, art. 8",
+          "cai_theme": "Transparence",
+          "tier": "attestation",
+          "weight": 4,
+          "signal": {
+            "source": "manual",
+            "check": "Réviser les avis de collecte.",
+            "notes": "Hors tenant."
+          },
+          "remediationFr": "Mettre à jour les avis de collecte pour couvrir tous les éléments exigés.",
+          "sapExposure": "art. 90.1 par. 1 - défaut d'informer conformément aux art. 7 et 8"
+        },
+        {
+          "id": "DR-04",
+          "titleFr": "Droit à la portabilité opérationnel",
+          "titleEn": "Data portability capability",
+          "obligationFr": "Depuis le 22 septembre 2024, sur demande, l'organisation doit communiquer un renseignement personnel informatisé recueilli auprès de la personne dans un format technologique structuré et couramment utilisé.",
+          "legalBasis": "P-39.1, art. 27 al. 3 et art. 3.3 al. 3",
+          "cai_theme": "Droit à la portabilité",
+          "tier": "automated-flagged-for-review",
+          "weight": 3,
+          "signal": {
+            "source": "graph",
+            "check": "Vérifier la disponibilité des mécanismes d'export (eDiscovery, export de données).",
+            "notes": "Signal partiel : la capacité technique existe presque toujours dans M365. Ce qui manque généralement, c'est la procédure documentée pour traiter la demande dans les délais. Ne pas noter cette obligation comme satisfaite sur la seule base de la capacité technique."
+          },
+          "remediationFr": "Documenter la procédure de traitement d'une demande de portabilité, avec délais et responsable."
+        },
+        {
+          "id": "DR-05",
+          "titleFr": "Droit à la désindexation et à la cessation de diffusion",
+          "titleEn": "De-indexing / right to be forgotten",
+          "obligationFr": "Les personnes peuvent demander la cessation de la diffusion de leurs renseignements personnels ou la désindexation des hyperliens rattachés à leur nom si la diffusion cause préjudice ou contrevient à la loi.",
+          "legalBasis": "P-39.1, art. 28.1",
+          "cai_theme": "Droit à la désindexation",
+          "tier": "attestation",
+          "weight": 3,
+          "signal": {
+            "source": "manual",
+            "check": "Vérifier l'existence d'une procédure de traitement de ces demandes.",
+            "notes": "Hors tenant."
+          },
+          "remediationFr": "Documenter la procédure et le point de contact."
+        },
+        {
+          "id": "DR-06",
+          "titleFr": "Décision fondée exclusivement sur un traitement automatisé",
+          "titleEn": "Automated decision-making disclosure",
+          "obligationFr": "L'organisation doit informer la personne lorsqu'elle fait l'objet d'une décision fondée exclusivement sur un traitement automatisé de ses renseignements, et lui donner l'occasion de présenter ses observations à un membre du personnel en mesure de réviser la décision.",
+          "legalBasis": "P-39.1, art. 12.1",
+          "cai_theme": "Traitement automatisé",
+          "tier": "attestation",
+          "weight": 3,
+          "signal": {
+            "source": "manual",
+            "check": "Inventorier les décisions automatisées (tri de candidatures, cotation, etc.).",
+            "notes": "Pertinence croissante avec l'adoption d'outils d'IA. Vaut la peine d'être posé explicitement au client, qui n'y pense généralement pas."
+          },
+          "remediationFr": "Inventorier les traitements automatisés décisionnels; prévoir l'avis et le recours humain.",
+          "sapExposure": "art. 90.1 par. 5 - défaut d'informer ou de permettre des observations (décision automatisée)"
+        },
+        {
+          "id": "DR-07",
+          "titleFr": "Renseignements concernant des mineurs de moins de 14 ans",
+          "titleEn": "Minors under 14",
+          "obligationFr": "Les renseignements personnels concernant un mineur de moins de 14 ans ne peuvent être recueillis auprès de celui-ci sans le consentement du titulaire de l'autorité parentale, sauf lorsque la collecte est manifestement au bénéfice du mineur.",
+          "legalBasis": "P-39.1, art. 4.1 et art. 14 al. 2",
+          "cai_theme": "Mineurs",
+          "tier": "attestation",
+          "weight": 3,
+          "signal": {
+            "source": "manual",
+            "check": "Déterminer si l'entreprise recueille des renseignements auprès de mineurs.",
+            "notes": "Non applicable à beaucoup de clients B2B - prévoir explicitement l'état 'non applicable' dans le rapport plutôt qu'un échec."
+          },
+          "remediationFr": "Mettre en place la vérification du consentement parental si applicable."
+        },
+        {
+          "id": "DR-08",
+          "titleFr": "Technologies d'identification, de localisation ou de profilage désactivées par défaut",
+          "titleEn": "Identification / location / profiling technologies off by default",
+          "obligationFr": "L'organisation doit informer au préalable du recours à une telle technologie et des moyens d'activer ces fonctions. Ces technologies ne peuvent être activées par défaut.",
+          "legalBasis": "P-39.1, art. 8.1",
+          "cai_theme": "Technologies d'identification, de localisation ou de profilage",
+          "tier": "automated-flagged-for-review",
+          "weight": 3,
+          "signal": {
+            "source": "graph",
+            "check": "Réviser les fonctions d'analyse et de télémétrie orientées personnes activées dans le tenant.",
+            "notes": "Rattachement technique délicat : les analyses de productivité et de localisation dans M365 peuvent relever de cette obligation selon leur configuration et leur usage. À traiter comme une question à poser, pas comme un verdict automatique."
+          },
+          "remediationFr": "Réviser les paramètres d'analyse orientée personnes; documenter l'information préalable fournie."
+        },
+        {
+          "id": "DR-09",
+          "titleFr": "Réponse aux demandes d'accès et de rectification dans les 30 jours",
+          "titleEn": "30-day response deadline",
+          "obligationFr": "Le responsable doit répondre par écrit à une demande d'accès ou de rectification avec diligence et au plus tard dans les 30 jours de sa réception. À défaut, la demande est RÉPUTÉE REFUSÉE, ce qui ouvre le recours devant la Commission.",
+          "legalBasis": "P-39.1, art. 32",
+          "cai_theme": "",
+          "tier": "attestation",
+          "weight": 4,
+          "signal": {
+            "source": "manual",
+            "check": "Vérifier le registre des demandes et les délais de réponse réellement observés.",
+            "notes": "Le seul délai chiffré ferme du régime privé - à ne pas confondre avec le délai de notification d'incident, qui lui n'est pas chiffré (« avec diligence »). Le silence vaut refus : c'est une exposition procédurale directe."
+          },
+          "remediationFr": "Mettre en place un suivi des demandes avec alerte avant l'échéance de 30 jours."
+        },
+        {
+          "id": "DR-10",
+          "titleFr": "Publication du lieu et des moyens d'accès aux renseignements",
+          "titleEn": "Access point publicized",
+          "obligationFr": "L'entreprise doit prendre les mesures nécessaires pour permettre l'exercice des droits et doit notamment porter à la connaissance du public l'endroit où les renseignements personnels sont accessibles et les moyens d'y accéder.",
+          "legalBasis": "P-39.1, art. 29",
+          "cai_theme": "",
+          "tier": "attestation",
+          "weight": 3,
+          "signal": {
+            "source": "manual",
+            "check": "Consigner l'URL ou le moyen par lequel cette information est rendue publique.",
+            "notes": "Distinct de la publication des coordonnées du responsable (art. 3.1) et de la politique de confidentialité (art. 8.2) - trois obligations de publication différentes, souvent confondues en une seule."
+          },
+          "remediationFr": "Publier l'endroit et les moyens d'accès, en plus des coordonnées du responsable."
+        }
+      ]
+    }
+  ],
+  "citationPolicy": "Chaque contrôle porte maintenant une citation d'articlé vérifiée directement dans le texte officiel. Une seule exception subsiste, SENS-05 (biométrie), dont la disposition habilitante n'est pas dans P-39.1 et n'a pas été vérifiée à la source dans cette passe - elle est marquée comme telle plutôt que devinée.",
+  "knownCorrections": [
+    {
+      "control": "CONS-03",
+      "issue": "La version précédente affirmait que l'anonymisation était interdite en l'absence de règlement gouvernemental.",
+      "reality": "Le Règlement sur l'anonymisation (A-2.1, r. 0.1, D. 783-2024) est en vigueur depuis le 30 mai 2024 et fixe un processus obligatoire en six étapes plus un registre.",
+      "rootCause": "La page de vulgarisation de la CAI décrit encore l'état du droit antérieur au règlement. Le contrôle a été bâti sur cette page plutôt que sur le texte réglementaire.",
+      "lesson": "Citer le texte officiel; traiter les pages de vulgarisation d'un régulateur comme une aide à la lecture, jamais comme la source de vérité."
+    }
+  ]
+}

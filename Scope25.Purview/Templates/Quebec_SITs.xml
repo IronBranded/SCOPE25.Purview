@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RulePackage xmlns="http://schemas.microsoft.com/office/2011/mce">
+  <RulePack id="fd0b21be-6ea0-43aa-baac-1c1b1c4c9219">
+    <Version major="1" minor="0" build="0" revision="0" />
+    <Publisher id="5d9a4897-9a7b-44a2-aab5-ef8639da0458" />
+    <Details defaultLangCode="en-us">
+      <LocalizedDetails langcode="en-us">
+        <PublisherName>Scope25.Purview</PublisherName>
+        <Name>Scope25 - Quebec Government-Issued IDs</Name>
+        <Description>Custom sensitive information types for identifiers not reliably covered by Microsoft's built-in library. See the coverage-map comment below for entities intentionally left out because a Microsoft built-in type already covers them.</Description>
+      </LocalizedDetails>
+      <LocalizedDetails langcode="fr-ca">
+        <PublisherName>Scope25.Purview</PublisherName>
+        <Name>Scope25 - Identifiants gouvernementaux du Québec</Name>
+        <Description>Types d'information sensible personnalisés pour les identifiants non couverts de manière fiable par la bibliothèque intégrée de Microsoft. Voir le commentaire de couverture ci-dessous pour les entités volontairement omises.</Description>
+      </LocalizedDetails>
+    </Details>
+  </RulePack>
+
+  <Rules>
+
+    <!-- ============================================================
+         COVERAGE MAP - what this file does NOT rebuild, and why.
+
+         Portal path for every SIT below, built-in or custom:
+         Microsoft Purview portal (purview.microsoft.com) > Solutions >
+         Information Protection > Classifiers > Sensitive info types
+         (shown as "Data classification > Sensitive info types" in
+         some tenants depending on portal nav version). Built-ins show
+         Publisher = "Microsoft Corporation"; anything imported from
+         this file shows Publisher = "Scope25.Purview" - that column is
+         the fastest way to tell them apart in a long list. Functionally
+         they behave identically either way: selectable in DLP policies
+         and auto-labeling rules exactly like a manually-created SIT,
+         because a manually-created SIT IS this same RulePackage format
+         under the hood - the portal's "Create sensitive info type"
+         wizard just builds and imports one for you. One real Purview
+         limitation either way: it does not expose a native "created by
+         / created on" field for any SIT, custom or built-in, so
+         Scope25's own operational log (see README, "Important a
+         savoir") is the actual record of who ran Import-Scope25QuebecSIT
+         and when - Purview's own UI won't tell you that on its own.
+
+         WHAT THIS FILE CONTAINS, AND THE RULE THAT DECIDED IT.
+
+         Four custom entities. Every one is anchored on a published,
+         verifiable structural format. Two entities that previously
+         lived here - the firearms licence (PAL) and Quebec
+         recreational permits - have been REMOVED, not merely
+         downgraded, because no such format exists for either:
+
+           - The RCMP publishes no structure for a PAL number. Three
+             rounds of research, ending at the full text of the
+             Firearms Licences Regulations (SOR/98-199), found nothing
+             beyond "at least eight digits". The official application
+             form asks for the number in a free-text field with no
+             digit boxes - direct evidence the format is not
+             standardised publicly.
+           - Pleasure-craft operator cards are issued by accredited
+             third-party course providers, not Transport Canada, so
+             there is no national numbering scheme to detect even in
+             principle. Hunting and fishing permit numbers are named in
+             the Gazette officielle but their format is unpublished.
+
+         Keeping them as low-confidence detectors would have added
+         false positives to a compliance report without adding
+         anything defensible. In a tool whose whole claim is that it
+         reports observations rather than verdicts, a detector that
+         mostly fires on coincidence undermines the detectors that
+         work. Where a client genuinely needs these identifiers, Exact
+         Data Match against their own permit-holder list is the right
+         instrument - a pattern never will be.
+
+         REMAINING ENTITIES, AND WHAT EACH IS ANCHORED ON:
+
+           RAMQ health number  - 4 letters + 8 digits encoding a real
+                                 birth month and day, so the digits
+                                 must decode to a valid date. Structure
+                                 confirmed by two independent sources.
+           Cheque transit      - Payments Canada Standard 006 s.4.4.3:
+                                 5-digit branch + 3-digit institution,
+                                 validated against a list of real
+                                 institution codes.
+           Quebec postal code  - Canada Post FSA/LDU format, restricted
+                                 to Quebec's G/H/J prefixes.
+           NIREC (civil status)- 13 digits, confirmed by a Quebec
+                                 government source. Weakest of the four,
+                                 because a 13-digit run is not
+                                 self-validating the way a date-encoded
+                                 one is. Proximity was therefore
+                                 tightened from 300 to 150 characters
+                                 and two generic keywords ("numero de
+                                 document", "numero d'inscription")
+                                 were dropped - both appear in ordinary
+                                 business documents and were carrying
+                                 the entity's precision on their own.
+
+         Everything else originally requested:
+         - Credit cards AND network-branded debit cards (Visa Debit,
+           Debit Mastercard) -> built-in "Credit Card Number" (Luhn-
+           validated; matches on PAN structure regardless of credit vs.
+           debit branding). Legacy Interac-only debit cards with no
+           network PAN have no publicly documented number format and
+           are not reliably detectable - a known limitation, not
+           something this file can close.
+         - Bank account numbers    -> built-in "Canada Bank Account
+           Number".
+         - General "All Physical Addresses" named entity: worth
+           checking directly in-tenant whether current coverage
+           includes Canada before assuming the custom entity below is
+           needed on top of it - Microsoft has expanded named-entity
+           country coverage more than once and this file was written
+           without a confirmed answer either way for Canada.
+         ============================================================ -->
+
+    <!-- ============================================================
+         CUSTOM ENTITY 1: RAMQ health insurance number (NAM)
+         Confidence: HIGH. Publicly documented structure: 4 letters
+         (3 from surname + 1 from given name) + 8 digits (2-digit
+         year, 2-digit month with +50 offset if the holder is female,
+         2-digit day, 2-digit administrative code).
+         Loi 25 relevance: health information is explicitly named as
+         "sensitive" personal information under Loi 25, which raises
+         the consent bar - this is the primary reason this entity
+         exists as a custom build rather than relying on a generic
+         type.
+         ============================================================ -->
+    <Entity id="5db46a8c-86a3-4832-9850-26b3b156dce1" patternsProximity="300" recommendedConfidence="75">
+      <Pattern confidenceLevel="85">
+        <IdMatch idRef="Regex_scope25_ramq_nam" />
+        <Match idRef="Keyword_scope25_ramq_nam" />
+      </Pattern>
+      <Pattern confidenceLevel="75">
+        <IdMatch idRef="Regex_scope25_ramq_nam" />
+      </Pattern>
+    </Entity>
+
+
+    <!-- ============================================================
+         CUSTOM ENTITY 3: Quebec civic address
+         Confidence: MEDIUM-HIGH on the postal code component (Canada
+         Post's FSA/LDU format is a public, stable standard); lower on
+         the civic-address keyword list, which is necessarily
+         approximate. Restricted to Quebec's postal-code prefixes (G,
+         H, J) to hold down false positives; widen the first-letter
+         class later if pan-Canada coverage is wanted.
+         ============================================================ -->
+    <Entity id="be04b7ed-a013-4264-8fb1-fda40056eb84" patternsProximity="300" recommendedConfidence="75">
+      <Pattern confidenceLevel="75">
+        <IdMatch idRef="Regex_scope25_qc_postal_code" />
+        <Match idRef="Keyword_scope25_civic_address" />
+      </Pattern>
+    </Entity>
+
+    <!-- ============================================================
+         CUSTOM ENTITY 4: Quebec birth certificate (NIREC)
+         Confidence: MEDIUM-HIGH, not RAMQ-tier, and here's why: NIREC
+         ("numero d'inscription au registre de l'etat civil") is
+         officially confirmed as a 13-digit number by a Quebec
+         government domain (a school service centre citing it for
+         admission purposes) and by the government's own terminology
+         database (Le grand dictionnaire terminologique /
+         thesaurus.gouv.qc.ca), which confirms the term itself and that
+         it appears on the "certificat de naissance" issued by the
+         Directeur de l'etat civil. Unlike RAMQ, though, "13 digits" is
+         not a self-validating structural claim the way "4 letters + a
+         digit sequence that must decode to a real month and day" is -
+         a random 13-digit string is unremarkable on its own. This
+         entity leans on keyword corroboration more than RAMQ does,
+         less than PAL does (PAL has no verified digit count at all;
+         this has one, from an official source, just not a checksum).
+
+         A second number appears on certificates issued after March
+         2005, the "numero de document" (unique per copy issued, not
+         per birth event) - its digit count was not confirmed in this
+         round of research, so no separate regex was built for it; it
+         is covered only as a keyword, which will corroborate a nearby
+         NIREC match without independently triggering a detection.
+
+         Quebec issues both a "certificat de naissance" (grand format
+         includes parents' names; used as ID) and a "copie d'acte de
+         naissance" (full reproduction) - both carry the NIREC, so both
+         are covered by the same keyword set.
+         ============================================================ -->
+    <Entity id="76415908-83cc-4372-b674-cfeeceb01d57" patternsProximity="150" recommendedConfidence="75">
+      <Pattern confidenceLevel="75">
+        <IdMatch idRef="Regex_scope25_nirec" />
+        <Match idRef="Keyword_scope25_birth_cert" />
+      </Pattern>
+    </Entity>
+
+    <!-- ============================================================
+         CUSTOM ENTITY 5: Specimen cheque / direct-deposit banking
+         details (transit + institution number)
+         Confidence: HIGH - and unusually well-grounded. The full text
+         of Payments Canada Standard 006 ("Specifications for
+         MICR-Encoded Payment Items", 2024 revision) was retrieved and
+         read for this entity. Section 4.4.3 specifies the Transit
+         Number Field exactly: eleven spaces, opening and closing
+         transit symbols, containing two digit groups separated by a
+         dash symbol - reading right to left, institution number
+         (three digits) then branch number (five digits). Printed left
+         to right that is branch(5) then institution(3), which is what
+         this regex matches.
+
+         Why this deserves its own entity even though Microsoft ships
+         "Canada Bank Account Number": a specimen/void cheque (chèque
+         spécimen) carries transit + institution + account TOGETHER,
+         which is exactly the combination needed to set up a direct
+         deposit or a fraudulent pre-authorized debit. The account
+         number alone is a weaker signal than the full set. Specimen
+         cheques circulate constantly in HR onboarding and supplier
+         setup - a genuinely common Loi 25 exposure in ordinary
+         business document flow, not an edge case.
+
+         The institution list below is deliberately PARTIAL: eight
+         codes covering the major Canadian FIs plus the two that
+         matter most in Quebec (Desjardins 815, National Bank 006).
+         Anchoring on a validated list rather than a bare \d{3} is
+         what makes this high confidence instead of "any 8 digits".
+         Extend it against Payments Canada's official financial
+         institution list before production - do not guess additional
+         codes, since a wrong code here silently produces false
+         positives that are hard to trace back.
+         ============================================================ -->
+    <Entity id="a84fd388-487e-4f1b-a4f1-10d246275c56" patternsProximity="300" recommendedConfidence="85">
+      <Pattern confidenceLevel="85">
+        <IdMatch idRef="Regex_scope25_transit_institution" />
+        <Match idRef="Keyword_scope25_cheque" />
+      </Pattern>
+      <Pattern confidenceLevel="75">
+        <IdMatch idRef="Regex_scope25_transit_institution" />
+      </Pattern>
+    </Entity>
+
+
+    <Regex id="Regex_scope25_ramq_nam">[A-Za-z]{4}[ \-]?\d{2}[ \-]?(0[1-9]|1[0-2]|5[1-9]|6[0-2])[ \-]?(0[1-9]|[12]\d|3[01])[ \-]?\d{2}</Regex>
+
+
+    <Regex id="Regex_scope25_qc_postal_code">[GHJ]\d[A-Za-z][ \-]?\d[A-Za-z]\d</Regex>
+
+    <Regex id="Regex_scope25_nirec">(?&lt;!\d)\d{13}(?!\d)</Regex>
+
+    <Regex id="Regex_scope25_transit_institution">(?&lt;!\d)\d{5}[ \-]{0,3}(001|002|003|004|006|010|039|815)(?!\d)</Regex>
+
+
+    <!-- Keyword lists -->
+
+    <Keyword id="Keyword_scope25_ramq_nam">
+      <Group matchStyle="word">
+        <Term>RAMQ</Term>
+        <Term>NAM</Term>
+        <Term>numero d'assurance maladie</Term>
+        <Term>numéro d'assurance maladie</Term>
+        <Term>no d'assurance maladie</Term>
+        <Term>régie de l'assurance maladie</Term>
+        <Term>regie de l'assurance maladie</Term>
+        <Term>assurance maladie du Québec</Term>
+        <Term>health insurance number</Term>
+        <Term>carte soleil</Term>
+        <Term>medicare number</Term>
+        <Term>carte d'assurance maladie</Term>
+      </Group>
+    </Keyword>
+
+
+
+    <Keyword id="Keyword_scope25_civic_address">
+      <Group matchStyle="word">
+        <Term>rue</Term>
+        <Term>boulevard</Term>
+        <Term>boul.</Term>
+        <Term>avenue</Term>
+        <Term>chemin</Term>
+        <Term>appartement</Term>
+        <Term>app.</Term>
+        <Term>street</Term>
+        <Term>st.</Term>
+        <Term>ave.</Term>
+        <Term>blvd</Term>
+        <Term>apt.</Term>
+        <Term>quebec</Term>
+        <Term>québec</Term>
+        <Term>address</Term>
+        <Term>adresse</Term>
+      </Group>
+    </Keyword>
+
+    <Keyword id="Keyword_scope25_birth_cert">
+      <Group matchStyle="word">
+        <Term>NIREC</Term>
+        <Term>numéro d'inscription au registre de l'état civil</Term>
+        <Term>numero d'inscription au registre de l'etat civil</Term>
+        <Term>certificat de naissance</Term>
+        <Term>acte de naissance</Term>
+        <Term>copie d'acte de naissance</Term>
+        <Term>certificat de mariage</Term>
+        <Term>acte de mariage</Term>
+        <Term>copie d'acte de mariage</Term>
+        <Term>certificat d'union civile</Term>
+        <Term>acte d'union civile</Term>
+        <Term>certificat de décès</Term>
+        <Term>acte de décès</Term>
+        <Term>directeur de l'état civil</Term>
+        <Term>directeur de l'etat civil</Term>
+        <Term>registre de l'état civil du Québec</Term>
+        <Term>birth certificate</Term>
+        <Term>marriage certificate</Term>
+        <Term>Quebec civil status registry</Term>
+      </Group>
+    </Keyword>
+
+    <Keyword id="Keyword_scope25_cheque">
+      <Group matchStyle="word">
+        <Term>spécimen</Term>
+        <Term>specimen</Term>
+        <Term>chèque spécimen</Term>
+        <Term>chèque annulé</Term>
+        <Term>void cheque</Term>
+        <Term>dépôt direct</Term>
+        <Term>depot direct</Term>
+        <Term>direct deposit</Term>
+        <Term>transit</Term>
+        <Term>numéro de transit</Term>
+        <Term>numéro d'institution</Term>
+        <Term>institution number</Term>
+        <Term>numéro de succursale</Term>
+        <Term>branch number</Term>
+        <Term>numéro de compte</Term>
+        <Term>account number</Term>
+        <Term>prélèvement préautorisé</Term>
+        <Term>pre-authorized debit</Term>
+        <Term>MICR</Term>
+      </Group>
+    </Keyword>
+
+
+
+    <LocalizedStrings>
+      <Resource idRef="5db46a8c-86a3-4832-9850-26b3b156dce1">
+        <Name default="true" langcode="en-us">Quebec RAMQ Health Insurance Number (NAM)</Name>
+        <Description default="true" langcode="en-us">Detects the Quebec health insurance number (numero d'assurance maladie) issued by RAMQ: 4 letters plus 8 digits.</Description>
+        <Name langcode="fr-ca">Numéro d'assurance maladie du Québec (RAMQ)</Name>
+        <Description langcode="fr-ca">Détecte le numéro d'assurance maladie du Québec émis par la RAMQ : 4 lettres suivies de 8 chiffres.</Description>
+      </Resource>
+      <Resource idRef="be04b7ed-a013-4264-8fb1-fda40056eb84">
+        <Name default="true" langcode="en-us">Quebec Civic Address</Name>
+        <Description default="true" langcode="en-us">Detects a Quebec postal code (FSA prefix G, H, or J) near civic-address keywords.</Description>
+        <Name langcode="fr-ca">Adresse civique du Québec</Name>
+        <Description langcode="fr-ca">Détecte un code postal du Québec (préfixe G, H ou J) à proximité de mots-clés d'adresse civique.</Description>
+      </Resource>
+      <Resource idRef="76415908-83cc-4372-b674-cfeeceb01d57">
+        <Name default="true" langcode="en-us">Quebec Civil Status Document Number (NIREC)</Name>
+        <Description default="true" langcode="en-us">Detects a 13-digit registry number near Quebec civil status document keywords (NIREC, certificat de naissance, certificat de mariage, Directeur de l'état civil). Digit count is confirmed for the birth-certificate NIREC; marriage, civil union and death acts use the same registry but their digit count was not independently confirmed.</Description>
+        <Name langcode="fr-ca">Numéro de document d'état civil du Québec (NIREC)</Name>
+        <Description langcode="fr-ca">Détecte un numéro d'inscription de 13 chiffres à proximité de mots-clés de documents d'état civil du Québec (NIREC, certificat de naissance, certificat de mariage, Directeur de l'état civil). Le nombre de chiffres est confirmé pour le NIREC de naissance; les actes de mariage, d'union civile et de décès relèvent du même registre, mais leur nombre de chiffres n'a pas été confirmé de façon indépendante.</Description>
+      </Resource>
+      <Resource idRef="a84fd388-487e-4f1b-a4f1-10d246275c56">
+        <Name default="true" langcode="en-us">Canada Cheque Transit and Institution Number (specimen cheque)</Name>
+        <Description default="true" langcode="en-us">Detects a 5-digit branch (transit) number followed by a recognized 3-digit financial institution number, per Payments Canada Standard 006. Typically found on specimen/void cheques and direct-deposit forms.</Description>
+        <Name langcode="fr-ca">Numéro de transit et d'institution (chèque spécimen)</Name>
+        <Description langcode="fr-ca">Détecte un numéro de succursale (transit) de 5 chiffres suivi d'un numéro d'institution financière reconnu de 3 chiffres, selon la norme 006 de Paiements Canada. Se trouve typiquement sur les chèques spécimens et les formulaires de dépôt direct.</Description>
+      </Resource>
+    </LocalizedStrings>
+
+  </Rules>
+</RulePackage>

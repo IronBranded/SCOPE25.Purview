@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rapport de conformité Loi 25 - Scope25.Purview</title>
+<style>
+/* ==========================================================================
+   Scope25.Purview - gabarit de rapport
+   Aucune dependance externe : polices système, CSS et JS en ligne.
+   Volontaire : les tenants clients bloquent souvent les CDN, et un rapport
+   de conformité doit rester lisible hors ligne et dans dix ans.
+   ========================================================================== */
+:root{
+  --encre:#14213d; --encre-douce:#46516b; --papier:#f7f8fa; --papier-haut:#ffffff;
+  --filet:#d5dae3; --bleu:#0b4f9e;
+  /* États : teintes administratives sourdes, pas des feux de circulation */
+  --conforme:#1f5b40; --ecart:#8c2f26; --valider:#8a6212;
+  --attester:#5c6577;  /* gris DELIBERE : noter un contrôle par attestation serait mentir */
+  --conforme-f:#e6efea; --ecart-f:#f6e8e6; --valider-f:#f7f0df; --attester-f:#eceef2;
+  /* Role semantique des polices : texte de loi en serif, sortie machine en
+     chasse fixe, interface en sans. On sait ce qu'on lit a la forme. */
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --sans:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  --mono:"Cascadia Mono",Consolas,"SF Mono",Menlo,"DejaVu Sans Mono",monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--papier);color:var(--encre);font-family:var(--sans);font-size:16px;line-height:1.55}
+.enveloppe{max-width:60rem;margin:0 auto;padding:0 1.5rem 5rem}
+
+/* Cartouche : calque sur l'en-tete d'une loi codifiee */
+.cartouche{border-bottom:3px double var(--encre);padding:2.5rem 0 1.5rem;margin-bottom:2rem}
+.surtitre{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--bleu);margin:0 0 .9rem}
+.cartouche h1{font-family:var(--serif);font-weight:600;font-size:clamp(1.7rem,4.2vw,2.5rem);line-height:1.15;margin:0 0 .5rem;letter-spacing:-.01em}
+.sous-titre{font-family:var(--serif);font-size:1.05rem;color:var(--encre-douce);margin:0 0 1.6rem;font-style:italic}
+.identite{display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:1rem 1.5rem;padding:1.1rem 0;border-top:1px solid var(--filet)}
+.identite div{min-width:0}
+.identite dt{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--encre-douce);margin:0 0 .25rem}
+.identite dd{margin:0;font-size:.9rem;font-weight:600;word-break:break-word}
+.identite dd.mono{font-family:var(--mono);font-weight:400;font-size:.82rem}
+.avertissement{margin:1.5rem 0 0;padding:.9rem 1.1rem;background:var(--attester-f);border-left:3px solid var(--attester);font-size:.86rem;color:var(--encre-douce)}
+.avertissement strong{color:var(--encre)}
+
+/* Element signature : la barre de preuve. La these du rapport - on voit
+   immediatement que la majorite des obligations ne sont PAS vérifiables. */
+.preuve{margin:0 0 2.75rem}
+.preuve h2{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--encre-douce);font-weight:600;margin:0 0 .8rem}
+.barre{display:flex;height:2.75rem;border:1px solid var(--encre);overflow:hidden}
+.barre span{display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.78rem;font-weight:600;color:#fff;min-width:0;overflow:hidden;white-space:nowrap}
+.seg-verifie{background:var(--conforme)}
+.seg-valider{background:var(--valider)}
+.seg-attester{background:var(--attester)}
+.legende{display:flex;flex-wrap:wrap;gap:.4rem 1.5rem;margin:.7rem 0 1.1rem;font-size:.8rem;color:var(--encre-douce)}
+.legende i{display:inline-block;width:.7rem;height:.7rem;margin-right:.4rem;vertical-align:-1px}
+.these{font-family:var(--serif);font-size:1.08rem;line-height:1.5;margin:0;padding-left:1rem;border-left:3px solid var(--bleu)}
+.these b{font-weight:600}
+
+.chiffres{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr));gap:1px;background:var(--filet);border:1px solid var(--filet);margin:2rem 0 1rem}
+.chiffre{background:var(--papier-haut);padding:1rem 1.1rem}
+.chiffre .n{font-family:var(--serif);font-size:2rem;line-height:1;font-weight:600;display:block}
+.chiffre .l{font-family:var(--mono);font-size:.63rem;letter-spacing:.09em;text-transform:uppercase;color:var(--encre-douce);display:block;margin-top:.45rem}
+.chiffre.c-conforme .n{color:var(--conforme)}
+.chiffre.c-ecart .n{color:var(--ecart)}
+.chiffre.c-valider .n{color:var(--valider)}
+.chiffre.c-attester .n{color:var(--attester)}
+.note-score{font-size:.84rem;color:var(--encre-douce);margin:0 0 2.75rem;line-height:1.5}
+
+.outils{position:sticky;top:0;z-index:5;background:var(--papier);border-top:1px solid var(--filet);border-bottom:1px solid var(--filet);padding:.85rem 0;margin-bottom:2rem;display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
+.filtre{padding:.45rem .8rem;border:1px solid var(--filet);background:var(--papier-haut);font-family:var(--mono);font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;color:var(--encre-douce);cursor:pointer}
+.filtre[aria-pressed=true]{background:var(--encre);border-color:var(--encre);color:#fff}
+.filtre:focus-visible,summary:focus-visible,.att-case:focus-visible{outline:2px solid var(--bleu);outline-offset:2px}
+.compteur{font-family:var(--mono);font-size:.72rem;color:var(--encre-douce);margin-left:auto}
+
+.domaine{margin:0 0 2.75rem}
+.domaine>h2{font-family:var(--serif);font-size:1.35rem;font-weight:600;margin:0 0 .2rem;padding-bottom:.5rem;border-bottom:1px solid var(--encre)}
+.domaine .dom-meta{font-family:var(--mono);font-size:.68rem;letter-spacing:.09em;text-transform:uppercase;color:var(--encre-douce);margin:.5rem 0 1.2rem}
+.controle{border-bottom:1px solid var(--filet);background:var(--papier-haut)}
+.controle[hidden]{display:none}
+.controle>summary{display:grid;grid-template-columns:5.6rem 1fr auto;gap:.9rem;align-items:baseline;padding:.9rem 1rem;cursor:pointer;list-style:none}
+.controle>summary::-webkit-details-marker{display:none}
+.controle>summary:hover{background:var(--papier)}
+.cid{font-family:var(--mono);font-size:.78rem;color:var(--bleu);font-weight:600}
+.ctitre{font-family:var(--serif);font-size:1.02rem;line-height:1.35}
+.état{font-family:var(--mono);font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;padding:.2rem .55rem;white-space:nowrap;font-weight:600}
+.e-conforme{background:var(--conforme-f);color:var(--conforme)}
+.e-ecart{background:var(--ecart-f);color:var(--ecart)}
+.e-valider{background:var(--valider-f);color:var(--valider)}
+.e-attester{background:var(--attester-f);color:var(--attester)}
+.e-inconnu{background:var(--attester-f);color:var(--encre-douce)}
+.corps{padding:0 1rem 1.4rem 7.5rem;border-top:1px dotted var(--filet)}
+.bloc{margin:1.1rem 0 0}
+.bloc h3{font-family:var(--mono);font-size:.63rem;letter-spacing:.1em;text-transform:uppercase;color:var(--encre-douce);margin:0 0 .35rem;font-weight:600}
+.bloc p{margin:0}
+.obligation{font-family:var(--serif);font-size:.98rem;line-height:1.55}
+.article{font-family:var(--mono);font-size:.78rem;color:var(--bleu)}
+.machine{font-family:var(--mono);font-size:.82rem;line-height:1.5;background:var(--papier);padding:.6rem .75rem;border-left:2px solid var(--filet)}
+.sap{font-size:.84rem;color:var(--ecart);border-left:2px solid var(--ecart);padding-left:.7rem}
+.attestation{margin-top:1.2rem;padding:.9rem 1rem;background:var(--attester-f);border-left:3px solid var(--attester)}
+.att-ligne{display:flex;gap:.6rem;align-items:flex-start;margin-bottom:.6rem}
+.att-case{margin:.2rem 0 0;width:1.05rem;height:1.05rem;flex:none;accent-color:var(--bleu)}
+.att-ligne label{font-size:.88rem;font-weight:600}
+.attestation textarea{width:100%;min-height:3.6rem;padding:.5rem .6rem;border:1px solid var(--filet);background:var(--papier-haut);font-family:var(--sans);font-size:.86rem;color:var(--encre);resize:vertical}
+.vide{padding:2.5rem 1rem;text-align:center;color:var(--encre-douce);font-family:var(--serif);font-style:italic}
+.pied{margin-top:3rem;padding-top:1.5rem;border-top:3px double var(--encre);font-size:.82rem;color:var(--encre-douce)}
+.pied p{margin:0 0 .7rem}
+.signature{display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));gap:2rem;margin-top:2rem}
+.ligne-sig{border-top:1px solid var(--encre);padding-top:.4rem;font-family:var(--mono);font-size:.66rem;letter-spacing:.09em;text-transform:uppercase}
+
+/* Cartographie : quelles catégories de données, dans quelles charges de travail */
+.carto{margin:0 0 2.75rem}
+.carto>h2{font-family:var(--serif);font-size:1.35rem;font-weight:600;margin:0 0 .2rem;padding-bottom:.5rem;border-bottom:1px solid var(--encre)}
+.carto .intro{font-size:.86rem;color:var(--encre-douce);margin:.7rem 0 1.4rem;line-height:1.5}
+.cat{background:var(--papier-haut);border:1px solid var(--filet);margin-bottom:1rem;padding:1.1rem 1.2rem}
+.cat-tete{display:flex;flex-wrap:wrap;gap:.6rem;align-items:baseline;margin-bottom:.15rem}
+.cat-tete h3{font-family:var(--serif);font-size:1.12rem;font-weight:600;margin:0}
+.cat-total{font-family:var(--mono);font-size:.78rem;color:var(--encre-douce);margin-left:auto}
+.cat-classe{font-family:var(--mono);font-size:.64rem;letter-spacing:.07em;text-transform:uppercase;padding:.18rem .5rem;font-weight:600;background:var(--attester-f);color:var(--encre-douce)}
+.cat-classe.sensible{background:var(--ecart-f);color:var(--ecart)}
+.types{display:flex;flex-wrap:wrap;gap:.35rem;margin:.8rem 0 1rem}
+.type{font-size:.78rem;padding:.2rem .55rem;background:var(--papier);border:1px solid var(--filet);border-radius:2px}
+.ou{display:grid;grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));gap:.5rem;margin-bottom:.9rem}
+.ou div{background:var(--papier);padding:.55rem .7rem;border-left:2px solid var(--bleu)}
+.ou b{display:block;font-family:var(--mono);font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--encre-douce);font-weight:600}
+.ou span{font-family:var(--serif);font-size:1.15rem;font-weight:600}
+.pts{margin:0 0 .9rem;font-size:.8rem}
+.pts li{font-family:var(--mono);font-size:.76rem;margin-bottom:.2rem;word-break:break-all}
+.pts li em{font-family:var(--sans);font-style:normal;color:var(--encre-douce)}
+.cai{border-top:1px dotted var(--filet);padding-top:.9rem;margin-top:.3rem}
+.cai h4{font-family:var(--mono);font-size:.63rem;letter-spacing:.1em;text-transform:uppercase;color:var(--encre-douce);margin:0 0 .5rem;font-weight:600}
+.cai ul{margin:0 0 .8rem;padding-left:1.1rem}
+.cai li{font-size:.87rem;line-height:1.5;margin-bottom:.35rem}
+.cai .agir{font-family:var(--serif);font-size:.95rem;line-height:1.5;padding-left:.9rem;border-left:3px solid var(--bleu);margin:0}
+.carto-vide{font-family:var(--serif);font-style:italic;color:var(--encre-douce);padding:1rem 0}
+.marque-conf{margin:0 0 1.5rem;padding:.8rem 1.1rem;background:var(--ecart-f);border-left:3px solid var(--ecart);font-size:.86rem;color:var(--ecart);font-weight:600}
+
+/* Camembert par type d'information sensible. SVG pur : aucune bibliotheque,
+   rendu identique hors ligne et a l'impression. */
+.sits{margin:0 0 2.75rem}
+.sits>h2{font-family:var(--serif);font-size:1.35rem;font-weight:600;margin:0 0 .2rem;padding-bottom:.5rem;border-bottom:1px solid var(--encre)}
+.sits .intro{font-size:.86rem;color:var(--encre-douce);margin:.7rem 0 1.4rem;line-height:1.5}
+.pie-wrap{display:flex;flex-wrap:wrap;gap:2rem;align-items:center;background:var(--papier-haut);border:1px solid var(--filet);padding:1.4rem}
+.pie{flex:0 0 auto}
+.pie svg{display:block}
+.pie-leg{flex:1 1 18rem;min-width:0;margin:0;padding:0;list-style:none}
+.pie-leg li{display:grid;grid-template-columns:.85rem 1fr auto auto;gap:.6rem;align-items:baseline;padding:.35rem 0;border-bottom:1px solid var(--filet);font-size:.85rem}
+.pie-leg li:last-child{border-bottom:0}
+.pie-leg .sw{width:.85rem;height:.85rem;align-self:center}
+.pie-leg .nm{min-width:0;overflow-wrap:anywhere}
+.pie-leg .ct{font-family:var(--mono);font-size:.8rem;font-weight:600}
+.pie-leg .pc{font-family:var(--mono);font-size:.72rem;color:var(--encre-douce)}
+.pie-leg .src{font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:var(--encre-douce);padding:.1rem .35rem;background:var(--papier);border:1px solid var(--filet)}
+
+/* Bloc de validation humaine, present sur CHAQUE contrôle : l'outil constaté, une personne juge. */
+.valide{margin-top:1.2rem;padding:.9rem 1rem;background:var(--attester-f);border-left:3px solid var(--bleu)}
+.valide .v-ligne{display:flex;gap:.6rem;align-items:flex-start;margin-bottom:.6rem}
+.valide input[type=checkbox]{margin:.2rem 0 0;width:1.05rem;height:1.05rem;flex:none;accent-color:var(--bleu)}
+.valide label{font-size:.88rem;font-weight:600}
+.valide textarea{width:100%;min-height:3rem;padding:.5rem .6rem;border:1px solid var(--filet);background:var(--papier-haut);font-family:var(--sans);font-size:.86rem;color:var(--encre);resize:vertical}
+.etat-src{font-family:var(--mono);font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;padding:.2rem .55rem;white-space:nowrap;font-weight:600;background:var(--papier);color:var(--encre-douce);border:1px solid var(--filet)}
+
+/* Fraicheur des donnees : l'avertissement le plus important du rapport. Place en tete
+   parce qu'un zero mal lu pendant un incident conduit a ne pas aviser la Commission. */
+.frais{margin:0 0 2rem;padding:1.1rem 1.2rem;background:var(--valider-f);border-left:4px solid var(--valider)}
+.frais h2{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--valider);margin:0 0 .6rem;font-weight:700}
+.frais p{margin:0 0 .6rem;font-size:.9rem;line-height:1.55}
+.frais p:last-child{margin-bottom:0}
+.frais b{font-weight:600}
+.frais .delai{font-family:var(--mono);font-size:.8rem;color:var(--encre-douce)}
+
+/* Bandeau d'etape : dit en une ligne ou l'on se trouve dans le processus en deux temps. */
+.etape{display:inline-block;font-family:var(--mono);font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;padding:.25rem .6rem;margin-bottom:.9rem}
+.etape.guide{background:var(--bleu);color:#fff}
+.etape.audit{background:var(--conforme);color:#fff}
+.suite{margin:0 0 2rem;padding:1.1rem 1.2rem;background:var(--attester-f);border-left:4px solid var(--bleu)}
+.suite h2{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--bleu);margin:0 0 .7rem;font-weight:700}
+.suite ol{margin:0;padding-left:1.2rem}
+.suite li{font-size:.9rem;line-height:1.55;margin-bottom:.55rem}
+.suite li:last-child{margin-bottom:0}
+.suite code{font-family:var(--mono);font-size:.82rem;background:var(--papier-haut);padding:.1rem .35rem;border:1px solid var(--filet)}
+
+@media (max-width:34rem){
+  .controle>summary{grid-template-columns:1fr auto;row-gap:.3rem}
+  .cid{grid-column:1/-1}
+  .corps{padding-left:1rem}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+@media print{
+  @page{margin:16mm 14mm}
+  body{background:#fff;font-size:10.5pt}
+  .enveloppe{max-width:none;padding:0}
+  .outils,.no-print{display:none!important}
+  .cartouche{padding-top:0}
+  .domaine>h2{break-after:avoid;page-break-after:avoid}
+  .controle{break-inside:avoid;page-break-inside:avoid;border-bottom:1px solid #999}
+  .controle>summary{cursor:default}
+  .corps{border-top:1px solid #ddd}
+  .attestation textarea{min-height:2.4rem}
+  .chiffre,.machine{background:#fff}
+  .barre{height:2rem}
+}
+</style>
+</head>
+<body>
+<div class="enveloppe">
+
+  <header class="cartouche">
+    <span class="etape" id="etape"></span>
+    <p class="surtitre">Loi 25 — Québec</p>
+    <h1>Rapport de conformité</h1>
+    <p class="sous-titre" id="c-portee"></p>
+    <dl class="identite">
+      <div><dt>Tenant audite</dt><dd class="mono" id="c-tenant">-</dd></div>
+      <div><dt>Généré par</dt><dd class="mono" id="c-compte">-</dd></div>
+      <div><dt>Date et heure</dt><dd class="mono" id="c-date">-</dd></div>
+      <div><dt>Module</dt><dd class="mono" id="c-version">-</dd></div>
+      <div><dt>Référentiel</dt><dd class="mono" id="c-ref">-</dd></div>
+      <div><dt>Journal operationnel</dt><dd class="mono" id="c-journal">-</dd></div>
+    </dl>
+    <p class="avertissement">
+      <strong>Ce rapport n'a pas valeur d'avis juridique.</strong>
+      Il recense des preuves techniques et organisationnelles a l'appui d'une demarche de conformité a la Loi 25.
+      Aucun verdict de conformité n'y est rendu. L'outil rapporte ce qu'il observe dans l'environnement
+      à l'instant indique ci-dessus; l'interprétation de chaque constat revient à des personnes qualifiées.
+    </p>
+  </header>
+
+  <p class="marque-conf" id="marque-conf" hidden></p>
+
+  <section class="preuve" aria-labelledby="t-preuve">
+    <h2 id="t-preuve">Barre de preuve</h2>
+    <div class="barre" id="barre" role="img" aria-label="Répartition des contrôles par niveau de vérifiabilité"></div>
+    <p class="legende">
+      <span><i style="background:#1f5b40"></i>Trace technique repérable</span>
+      <span><i style="background:#8a6212"></i>Signal partiel</span>
+      <span><i style="background:#5c6577"></i>Preuve documentaire requise</span>
+    </p>
+    <p class="these" id="these"></p>
+  </section>
+
+  <section class="chiffres" id="chiffres" aria-label="Sommaire chiffre"></section>
+  <p class="note-score" id="note-score"></p>
+
+  <section class="suite" id="suite" hidden aria-labelledby="t-suite">
+    <h2 id="t-suite">Étape suivante</h2>
+    <div id="suite-corps"></div>
+  </section>
+
+  <section class="frais" id="frais" hidden aria-labelledby="t-frais">
+    <h2 id="t-frais">Fraîcheur des données — à lire avant d'interpréter tout chiffre</h2>
+    <div id="frais-corps"></div>
+  </section>
+
+  <section class="sits" id="sits" hidden aria-labelledby="t-sits">
+    <h2 id="t-sits">Types d'information sensible détectés</h2>
+    <p class="intro" id="sits-intro"></p>
+    <div class="pie-wrap">
+      <div class="pie" id="pie"></div>
+      <ul class="pie-leg" id="pie-leg"></ul>
+    </div>
+  </section>
+
+  <section class="carto" id="carto" hidden aria-labelledby="t-carto">
+    <h2 id="t-carto">Cartographie des données</h2>
+    <p class="intro" id="carto-intro"></p>
+    <div id="carto-liste"></div>
+  </section>
+
+  <div class="outils no-print">
+    <button class="filtre" data-f="tous" aria-pressed="true">Tous</button>
+    <button class="filtre" data-f="conforme" aria-pressed="false">Signal technique</button>
+    <button class="filtre" data-f="valider" aria-pressed="false">Signal partiel</button>
+    <button class="filtre" data-f="attester" aria-pressed="false">Preuve documentaire</button>
+    <button class="filtre" data-f="sap" aria-pressed="false">Exposition SAP</button>
+    <button class="filtre" id="btn-deplier" aria-pressed="false">Tout deplier</button>
+    <button class="filtre" id="btn-imprimer">Imprimer</button>
+    <span class="compteur" id="compteur"></span>
+  </div>
+
+  <main id="domaines"></main>
+
+  <footer class="pied">
+    <p id="p-source"></p>
+    <p id="p-correction"></p>
+    <p><strong>Les notes de validation saisies dans ce rapport ne sont pas enregistrees.</strong>
+       Imprimez ou exportez en PDF pour les conserver.</p>
+    <div class="signature">
+      <div class="ligne-sig">Verificateur - signature et date</div>
+      <div class="ligne-sig">Responsable de la protection des RP - signature et date</div>
+    </div>
+  </footer>
+</div>
+
+<script>
+/* Données injectees par New-Scope25Report : le bloc ci-dessous est remplace
+   integralement. Les valeurs presentes servent au rendu d'essai du gabarit. */
+var SCOPE25 = /*__SCOPE25_DATA__*/{
+  "meta":{"tenant":"(gabarit non rempli)","account":"-","generatedLocal":"-","moduleVersion":"-",
+          "frameworkLabel":"-","scope":"-","logPath":"-","sourceBasis":"","correctionNote":""},
+  "summary":{"automatedPass":0,"automatedFail":0,"automatedUnknown":0,"automatedScorePercent":null,
+             "flaggedForReview":0,"attestationOutstanding":0,"totalControls":0,"scoreBasis":"","caveat":""},
+  "mode":"Audit",
+  "dataMap":null,
+  "freshness":{},
+  "sits":[],
+  "domains":[]
+}/*__FIN_SCOPE25_DATA__*/;
+
+function $(s){return document.querySelector(s);}
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){
+  return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+
+/* L'outil ne rend aucun verdict. Le badge indique seulement d'où vient la preuve,
+   jamais si l'organisation est conforme - ce jugement appartient a une personne. */
+function sourceDe(c){
+  if(c.tier==="attestation") return {txt:"Preuve documentaire",grp:"attester"};
+  if(c.status==="Indisponible") return {txt:"Signal indisponible",grp:"inconnu"};
+  if(c.tier==="automated-flagged-for-review") return {txt:"Signal partiel",grp:"valider"};
+  return {txt:"Signal technique",grp:"conforme"};
+}
+
+function remplirEntete(){
+  var m=SCOPE25.meta;
+  $("#c-portee").textContent=m.scope||"";
+  $("#c-tenant").textContent=m.tenant||"-";
+  $("#c-compte").textContent=m.account||"-";
+  $("#c-date").textContent=m.generatedLocal||"-";
+  $("#c-version").textContent="Scope25.Purview "+(m.moduleVersion||"-");
+  $("#c-ref").textContent=m.frameworkLabel||"-";
+  $("#c-journal").textContent=m.logPath||"-";
+  $("#p-source").textContent=m.sourceBasis||"";
+  $("#p-correction").textContent=m.correctionNote||"";
+  document.title="Rapport Loi 25 - "+(m.tenant||"Scope25");
+}
+
+function remplirPreuve(){
+  var s=SCOPE25.summary, t=Math.max(s.totalControls,1);
+  var tech=s.technicalSignalControls, hum=s.humanEvidenceControls;
+  var parts=[
+    {n:tech,cls:"seg-verifie",lab:tech+" a signal technique"},
+    {n:hum,cls:"seg-attester",lab:hum+" a preuve documentaire"}
+  ];
+  $("#barre").innerHTML=parts.filter(function(p){return p.n>0;}).map(function(p){
+    var pct=100*p.n/t;
+    return '<span class="'+p.cls+'" style="width:'+pct.toFixed(2)+'%">'+(pct>16?esc(p.lab):esc(String(p.n)))+'</span>';
+  }).join("");
+  var pctTech=100*tech/t;
+  var g=(SCOPE25.mode==="Guide");
+  $("#these").innerHTML = g
+    ? ("Sur "+t+" obligations au référentiel, <b>"+tech+"</b> pourront être recoupées avec un signal technique "+
+       "une fois l'indexation faite. Les <b>"+hum+"</b> autres ne dépendent d'aucun délai technique : "+
+       "elles reposent sur des personnes et des documents, et le travail peut commencer aujourd'hui.")
+    : ("Sur "+t+" obligations au référentiel, <b>"+tech+"</b> laissent une trace technique "+
+    "repérable dans l'environnement ("+pctTech.toFixed(0)+" %). Les <b>"+hum+"</b> autres ne peuvent etre établies "+
+    "que par des personnes et des documents. <b>Aucun verdict de conformité n'est rendu ici</b> : l'outil rapporte "+
+    "ce qu'il observe, l'interprétation revient à un spécialiste Purview, au responsable de la réponse aux incidents, "+
+    "au conseiller en gestion de brèche et au conseiller juridique.");
+}
+
+function remplirChiffres(){
+  var s=SCOPE25.summary;
+  var cases=[
+    {n:s.totalControls,l:"Obligations au référentiel",c:""},
+    {n:s.evidenceCollected,l:"Preuves recueillies",c:"c-conforme"},
+    {n:s.evidenceToObtain,l:"À obtenir des personnes",c:"c-attester"},
+    {n:s.evidenceUnavailable,l:"Signal indisponible",c:"c-valider"}
+  ];
+  $("#chiffres").innerHTML=cases.map(function(x){
+    return '<div class="chiffre '+x.c+'"><span class="n">'+esc(String(x.n))+'</span><span class="l">'+esc(x.l)+'</span></div>';
+  }).join("");
+  $("#note-score").textContent=((s.basis||"")+" "+(s.caveat||"")).trim();
+}
+
+function carteControle(c){
+  var e=sourceDe(c), att=(c.tier==="attestation");
+  var corps='<div class="corps">';
+  corps+='<div class="bloc"><h3>Obligation</h3><p class="obligation">'+esc(c.obligation)+'</p></div>';
+  if(c.legalBasis) corps+='<div class="bloc"><h3>Fondement</h3><p class="article">'+esc(c.legalBasis)+'</p></div>';
+  if(c.evidence)   corps+='<div class="bloc"><h3>'+(att?"Preuve à obtenir":"Constat technique")+
+                          '</h3><p class="machine">'+esc(c.evidence)+'</p></div>';
+  if(c.sapExposure)corps+='<div class="bloc"><h3>Exposition aux sanctions</h3><p class="sap">'+esc(c.sapExposure)+'</p></div>';
+  if(c.remediation)corps+='<div class="bloc"><h3>Piste de correction</h3><p>'+esc(c.remediation)+'</p></div>';
+
+  corps+='<div class="valide"><div class="v-ligne">'+
+    '<input type="checkbox" id="v-'+esc(c.id)+'">'+
+    '<label for="v-'+esc(c.id)+'">Revu par une personne qualifiée</label></div>'+
+    '<textarea placeholder="Conclusion du reviseur, preuve consultee, date, nom..." '+
+    'aria-label="Note de validation pour '+esc(c.id)+'"></textarea></div>';
+
+  corps+='</div>';
+  return '<details class="controle" data-grp="'+e.grp+'" data-sap="'+(c.sapExposure?"1":"0")+'">'+
+    '<summary><span class="cid">'+esc(c.id)+'</span><span class="ctitre">'+esc(c.title)+'</span>'+
+    '<span class="etat-src">'+esc(e.txt)+'</span></summary>'+corps+'</details>';
+}
+
+function remplirDomaines(){
+  $("#domaines").innerHTML=SCOPE25.domains.map(function(d){
+    var n=d.controls.length;
+    
+    return '<section class="domaine" data-dom="'+esc(d.id)+'"><h2>'+esc(d.title)+'</h2>'+
+      '<p class="dom-meta">'+esc(d.id)+' &middot; '+n+' contrôle'+(n>1?"s":"")+'</p>'+
+      d.controls.map(carteControle).join("")+'</section>';
+  }).join("");
+}
+
+var filtreActif="tous";
+function appliquer(){
+  var visibles=0;
+  Array.prototype.forEach.call(document.querySelectorAll(".controle"),function(el){
+    var okF = filtreActif==="tous" ? true
+            : filtreActif==="sap"  ? el.getAttribute("data-sap")==="1"
+            : el.getAttribute("data-grp")===filtreActif;
+    var ok = okF;
+    el.hidden = !ok;
+    if(ok) visibles++;
+  });
+  Array.prototype.forEach.call(document.querySelectorAll(".domaine"),function(sec){
+    sec.hidden = sec.querySelectorAll(".controle:not([hidden])").length===0;
+  });
+  $("#compteur").textContent=visibles+" / "+SCOPE25.summary.totalControls+" contrôles";
+  var vide=$("#vide");
+  if(visibles===0 && !vide){
+    vide=document.createElement("p");
+    vide.id="vide"; vide.className="vide";
+    vide.textContent="Aucun contrôle dans cette vue. Choisissez « Tous ».";
+    $("#domaines").appendChild(vide);
+  } else if(visibles>0 && vide){ vide.parentNode.removeChild(vide); }
+}
+
+function brancher(){
+  Array.prototype.forEach.call(document.querySelectorAll(".filtre[data-f]"),function(b){
+    b.addEventListener("click",function(){
+      filtreActif=b.getAttribute("data-f");
+      Array.prototype.forEach.call(document.querySelectorAll(".filtre[data-f]"),function(o){
+        o.setAttribute("aria-pressed",String(o===b));
+      });
+      appliquer();
+    });
+  });
+
+  var bd=$("#btn-deplier");
+  bd.addEventListener("click",function(){
+    var ouvrir=bd.getAttribute("aria-pressed")!=="true";
+    Array.prototype.forEach.call(document.querySelectorAll(".controle"),function(d){d.open=ouvrir;});
+    bd.setAttribute("aria-pressed",String(ouvrir));
+    bd.textContent=ouvrir?"Tout replier":"Tout deplier";
+  });
+  $("#btn-imprimer").addEventListener("click",function(){window.print();});
+
+  /* A l'impression : tout deplier, puis restaurer l'état d'origine. */
+  var etatAvant=null;
+  window.addEventListener("beforeprint",function(){
+    etatAvant=Array.prototype.map.call(document.querySelectorAll(".controle"),function(d){return d.open;});
+    Array.prototype.forEach.call(document.querySelectorAll(".controle"),function(d){d.open=true;});
+  });
+  window.addEventListener("afterprint",function(){
+    if(!etatAvant) return;
+    Array.prototype.forEach.call(document.querySelectorAll(".controle"),function(d,i){d.open=etatAvant[i];});
+    etatAvant=null;
+  });
+}
+
+/* Palette par catégorie, cohérente avec la cartographie. */
+var CAT_COULEUR = {"Santé":"#8c2f26","Identité":"#0b4f9e","Financier":"#1f5b40","Adresse":"#8a6212"};
+var TEINTES = ["","cc","99","77","55","3a"];
+
+function remplirEtape(){
+  var guide = (SCOPE25.mode === "Guide");
+  var b=document.getElementById("etape");
+  b.className = "etape " + (guide ? "guide" : "audit");
+  b.textContent = guide ? "Étape 1 sur 2 — Guide" : "Étape 2 sur 2 — Audit";
+  document.querySelector(".cartouche h1").textContent = guide
+    ? "Guide de conformité Loi 25"
+    : "Rapport d'audit des renseignements personnels";
+
+  if(!guide) return;
+
+  document.getElementById("suite").hidden=false;
+  document.getElementById("suite-corps").innerHTML =
+    "<p style=\"margin:0 0 .8rem;font-size:.9rem;line-height:1.55\">Ce document ne contient <b>aucune donnée " +
+    "de votre environnement</b>, et c'est voulu. Les détecteurs viennent d'être déployés; Purview n'a encore " +
+    "rien classé selon eux. Tout chiffre produit maintenant serait un zéro trompeur plutôt qu'un inventaire.</p>" +
+    "<ol>" +
+    "<li><b>Commencez par les obligations organisationnelles.</b> Elles représentent la majorité du référentiel, " +
+    "aucun délai technique ne les bloque, et elles sont listées ci-dessous avec leur fondement légal.</li>" +
+    "<li><b>Laissez Purview indexer.</b> Comptez au moins sept jours. Un type d'information sensible nouvellement " +
+    "importé ne reclasse pas les fichiers existants tant qu'ils ne sont pas modifiés ou réindexés.</li>" +
+    "<li><b>Vérifiez la couverture</b> dans le portail Purview, sous <i>Classification des données &rsaquo; " +
+    "Explorateur de contenu</i>, et confirmez que les types Scope25 y remontent des correspondances. " +
+    "Consultez aussi le sommaire des fichiers non analysés, s'il est disponible dans votre tenant.</li>" +
+    "<li><b>Puis exécutez l'étape 2 :</b> <code>Invoke-Scope25Audit</code>. Le rapport complet inclura " +
+    "l'inventaire, les emplacements et la répartition par type détecté.</li>" +
+    "</ol>";
+}
+
+function remplirFraicheur(){
+  if(!SCOPE25.sits || !SCOPE25.sits.length) return;
+  document.getElementById("frais").hidden=false;
+  var f = SCOPE25.freshness || {};
+  var html='';
+
+  html+='<p><b>Ce rapport est immédiat, mais les chiffres ne le sont pas.</b> Les comptes proviennent de '+
+        "l'index de classification que Purview tient déjà. Générer ce rapport ne déclenche aucune analyse "+
+        "de l'environnement : il lit ce qui a déjà été indexé, et rien d'autre.</p>";
+
+  html+="<p>Microsoft précise que la modification d'une définition de type d'information sensible <b>ne "+
+        "reclasse pas les fichiers existants</b> tant qu'ils ne sont pas modifiés ou réindexés. Un type "+
+        "importé récemment ne verra donc pas un document qui dort dans SharePoint depuis 2023. Le délai "+
+        "couramment observé entre une réindexation et l'apparition des résultats est de l'ordre de "+
+        "<b>un à sept jours</b>.</p>";
+
+  if(f.daysSinceImport !== null && f.daysSinceImport !== undefined){
+    var d=f.daysSinceImport;
+    var verdict = d < 7
+      ? "Ce délai est <b>court</b>. Une partie du contenu n'a probablement pas encore été classée : traitez les chiffres ci-dessous comme un plancher, pas comme un inventaire."
+      : "Ce délai laisse une marge raisonnable, sans garantir que tout le contenu au repos a été réindexé.";
+    html+='<p class="delai">Types d\'information sensible importés le '+esc(f.sitsImportedOn)+
+          ' — soit il y a '+d+' jour(s).</p><p>'+verdict+'</p>';
+  } else {
+    html+="<p class=\"delai\">Date d'importation des types d'information sensible non fournie. "+
+          "Passez -SitsImportedOn à New-Scope25Report pour que le rapport situe lui-même ce délai.</p>";
+  }
+
+  html+="<p><b>Conséquence à retenir en contexte d'incident :</b> un zéro dans ce rapport signifie "+
+        "« rien d'observé », jamais « rien de présent ». Conclure à l'absence de données de santé dans un "+
+        "site compromis sur la seule foi d'un compte à zéro — alors que rien n'y a été analysé depuis "+
+        "l'importation des types — mènerait à ne pas aviser la Commission d'accès à l'information alors "+
+        "qu'il le faudrait. Faites confirmer la couverture d'indexation avant de vous appuyer sur ces "+
+        "chiffres pour une décision de notification.</p>";
+
+  html+="<p>L'Exact Data Match (EDM), s'il est utilisé, est encore plus lent : il suppose le téléversement "+
+        "et le hachage d'une table de référence, puis son indexation — un processus planifié distinct, "+
+        "à préparer bien avant d'en avoir besoin.</p>";
+
+  document.getElementById("frais-corps").innerHTML=html;
+}
+
+function remplirSits(){
+  var sits = SCOPE25.sits;
+  if(!sits || !sits.length) return;
+  document.getElementById("sits").hidden=false;
+
+  var total = sits.reduce(function(a,s){return a+s.itemCount;},0);
+  $("#sits-intro").textContent =
+    "Répartition des "+total.toLocaleString("fr-CA")+" détections par type d'information sensible. "+
+    "Ces chiffres proviennent de l'explorateur de contenu et sont indépendants de l'étiquetage : "+
+    "un type se declenche sur le contenu même si aucune étiquette n'a jamais ete déployée.";
+
+  // Compteur de teinte par catégorie, pour distinguer plusieurs SIT d'une meme famille
+  var vus = {};
+  sits.forEach(function(s){
+    var n = vus[s.category] || 0;
+    s._couleur = (CAT_COULEUR[s.category]||"#5c6577") + (TEINTES[Math.min(n,5)]||"");
+    vus[s.category] = n+1;
+  });
+
+  var R=88, C=100, angle=-Math.PI/2, parts=[];
+  sits.forEach(function(s){
+    var frac = total>0 ? s.itemCount/total : 0;
+    var span = frac*2*Math.PI;
+    if(frac >= 0.9999){
+      // Un seul type : un arc complet ne se dessine pas, il faut un cercle.
+      parts.push('<circle cx="'+C+'" cy="'+C+'" r="'+R+'" fill="'+s._couleur+'" stroke="#fff" stroke-width="1.5"/>');
+    } else {
+      var x1=C+R*Math.cos(angle), y1=C+R*Math.sin(angle);
+      var x2=C+R*Math.cos(angle+span), y2=C+R*Math.sin(angle+span);
+      var grand = span>Math.PI ? 1 : 0;
+      parts.push('<path d="M '+C+' '+C+' L '+x1.toFixed(2)+' '+y1.toFixed(2)+
+        ' A '+R+' '+R+' 0 '+grand+' 1 '+x2.toFixed(2)+' '+y2.toFixed(2)+' Z" fill="'+s._couleur+
+        '" stroke="#fff" stroke-width="1.5"><title>'+esc(s.name)+' : '+s.itemCount+'</title></path>');
+    }
+    angle += span;
+  });
+
+  $("#pie").innerHTML='<svg viewBox="0 0 200 200" width="200" height="200" role="img" '+
+    'aria-label="Répartition des détections par type d\'information sensible">'+parts.join("")+
+    '<circle cx="100" cy="100" r="42" fill="'+"#f7f8fa"+'"/>'+
+    '<text x="100" y="96" text-anchor="middle" font-family="Georgia,serif" font-size="21" font-weight="600" fill="#14213d">'+
+    total.toLocaleString("fr-CA")+'</text>'+
+    '<text x="100" y="112" text-anchor="middle" font-family="Consolas,monospace" font-size="8" letter-spacing="1" fill="#46516b">DETECTIONS</text></svg>';
+
+  $("#pie-leg").innerHTML=sits.map(function(s){
+    var pct = total>0 ? (100*s.itemCount/total) : 0;
+    return '<li><span class="sw" style="background:'+s._couleur+'"></span>'+
+      '<span class="nm">'+esc(s.name)+'</span>'+
+      '<span class="src">'+esc(s.source)+'</span>'+
+      '<span class="ct">'+s.itemCount.toLocaleString("fr-CA")+'</span>'+
+      '<span class="pc">'+pct.toFixed(1)+' %</span></li>';
+  }).join("");
+}
+
+function remplirCarto(){
+  var dm = SCOPE25.dataMap;
+  if(!dm || !dm.catégories || !dm.catégories.length) return;
+  document.getElementById("carto").hidden=false;
+
+  if(dm.endpointDetail){
+    var mc=$("#marque-conf");
+    mc.hidden=false;
+    mc.textContent="Document confidentiel - ce rapport nomme les emplacements ou se concentrent les données "+
+      "personnelles les plus sensibles. Le conserver et le transmettre en consequence.";
+  }
+
+  $("#carto-intro").textContent=dm.introFr||"";
+
+  $("#carto-liste").innerHTML=dm.catégories.map(function(c){
+    var sensible=/SENSIBLE/i.test(c.classification||"");
+    var html='<article class="cat">';
+    html+='<div class="cat-tete"><h3>'+esc(c.displayFr)+'</h3>'+
+          '<span class="cat-classe'+(sensible?" sensible":"")+'">'+esc(c.classification||"")+'</span>'+
+          '<span class="cat-total">'+esc(String(c.totalItems))+' élément'+(c.totalItems>1?"s":"")+'</span></div>';
+
+    if(c.dataTypesFr && c.dataTypesFr.length){
+      html+='<div class="types">'+c.dataTypesFr.map(function(t){
+        return '<span class="type">'+esc(t)+'</span>';}).join("")+'</div>';
+    }
+
+    if(c.byWorkload && c.byWorkload.length){
+      html+='<div class="ou">'+c.byWorkload.map(function(w){
+        return '<div><b>'+esc(w.workload)+'</b><span>'+esc(String(w.itemCount))+'</span></div>';}).join("")+'</div>';
+    } else {
+      html+='<p class="carto-vide">Aucun élément étiqueté detecte dans cette catégorie. Cela peut signifier '+
+            'soit l\'absence de données, soit un étiquetage non déployé - a valider avec le client.</p>';
+    }
+
+    if(c.endpoints && c.endpoints.length){
+      html+='<ul class="pts">'+c.endpoints.map(function(e){
+        return '<li><em>'+esc(e.type)+' :</em> '+esc(e.name)+' ('+esc(String(e.itemCount))+')</li>';}).join("")+'</ul>';
+    }
+
+    html+='<div class="cai"><h4>Ce que la Loi 25 exige pour cette catégorie</h4><ul>'+
+      (c.caiObligations||[]).map(function(o){return '<li>'+esc(o)+'</li>';}).join("")+'</ul>'+
+      '<p class="agir">'+esc(c.caiAction||"")+'</p></div>';
+
+    return html+'</article>';
+  }).join("");
+}
+
+remplirEtape(); remplirEntete(); remplirPreuve(); remplirFraicheur(); remplirSits(); remplirCarto(); remplirChiffres(); remplirDomaines(); brancher(); appliquer();
+</script>
+</body>
+</html>

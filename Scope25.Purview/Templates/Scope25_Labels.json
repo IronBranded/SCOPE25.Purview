@@ -1,0 +1,119 @@
+{
+  "_module": "Scope25.Purview",
+  "_description": "Sensitivity label definitions consumed by Publish-Scope25SensitivityLabels and Get-Scope25LabelCoverage (Phase 4). Each label rolls up one or more built-in and custom SITs into a report-friendly category. Priority matters when one document matches more than one category: Health Data is checked first because RAMQ is medical information (explicitly 'sensitive' under Loi 25), then ID, then Financial Data, then Address.",
+  "labels": [
+    {
+      "name": "Scope25-HealthData",
+      "displayNameEn": "Health Data",
+      "displayNameFr": "Données de santé",
+      "tooltipEn": "Contains a Quebec health insurance number (RAMQ/NAM) or other medical information. Sensitive under Loi 25.",
+      "tooltipFr": "Contient un numéro d'assurance maladie du Québec (RAMQ/NAM) ou une autre information médicale. Sensible en vertu de la Loi 25.",
+      "priority": 1,
+      "triggerSits": [
+        "Quebec RAMQ Health Insurance Number (NAM)"
+      ],
+      "loi25Note": "Medical information is explicitly named as 'sensitive' personal information under Loi 25, which raises the consent bar for any secondary use.",
+      "confidenceNote": "RAMQ détection is high confidence (custom-built, narrow structural pattern, keyword-corroborated).",
+      "dataTypesFr": [
+        "Numéro d'assurance maladie du Québec (RAMQ / NAM)"
+      ],
+      "caiGuidance": {
+        "classificationFr": "Renseignement SENSIBLE au sens de la Loi 25.",
+        "obligationsFr": [
+          "L'information de nature médicale est nommément qualifiée de sensible (art. 12, al. 4, par. 2). C'est la catégorie la plus exposée du référentiel.",
+          "Le consentement doit être EXPRÈS pour toute utilisation à une autre fin que celle de la collecte (art. 12, al. 1) et pour toute communication à un tiers (art. 13, al. 2). Un consentement implicite ne suffit pas.",
+          "Les mesures de sécurité doivent être proportionnées à la sensibilité (art. 10) : cette catégorie justifie un contrôle d'accès plus strict que les autres.",
+          "Une ÉFVP portant sur ces données doit être proportionnée à leur sensibilité (art. 3.3, al. 4)."
+        ],
+        "actionFr": "Restreindre l'accès au strict nécessaire, vérifier que le consentement recueilli est exprès, et traiter tout incident touchant cette catégorie comme présumé à risque de préjudice sérieux jusqu'à preuve du contraire."
+      }
+    },
+    {
+      "name": "Scope25-ID",
+      "displayNameEn": "ID",
+      "displayNameFr": "Identité",
+      "tooltipEn": "Contains a government-issued identity document number (driver's licence, SIN, passport, or birth/marriage certificate).",
+      "tooltipFr": "Contient un numéro de document d'identité délivré par un gouvernement (permis de conduire, NAS, passeport, certificat de naissance ou de mariage).",
+      "priority": 2,
+      "triggerSits": [
+        "Canada Driver's License Number",
+        "Canada Social Insurance Number",
+        "Canada Passport Number",
+        "Quebec Civil Status Document Number (NIREC)"
+      ],
+      "loi25Note": "Government identifiers feed the sensitive-information-governance theme of the Loi 25 control library (Phase 3).",
+      "confidenceNote": "Toutes les détections de cette catégorie reposent sur un format publié. Élevée : permis de conduire, NAS (validé par somme de contrôle) et passeport, tous des types intégrés de Microsoft. Le NIREC est le moins contraint structurellement des quatre - 13 chiffres ne s'autovalident pas comme une date encodée - d'où une proximité de mots-clés resserrée à 150 caractères. Les détecteurs de permis d'armes à feu et de permis récréatifs ont été retirés faute de format publié.",
+      "dataTypesFr": [
+        "Numéro d'assurance sociale (NAS)",
+        "Permis de conduire (SAAQ)",
+        "Passeport canadien",
+        "Certificat de naissance ou de mariage (NIREC)"
+      ],
+      "caiGuidance": {
+        "classificationFr": "Renseignement personnel; devient sensible selon le contexte d'utilisation.",
+        "obligationsFr": [
+          "Ne recueillir que les renseignements nécessaires aux fins déterminées avant la collecte (art. 5). En cas de doute, un renseignement est réputé NON nécessaire (art. 9, al. 2).",
+          "On ne peut refuser un bien, un service ou un emploi parce qu'une personne refuse de fournir un renseignement non nécessaire (art. 9).",
+          "L'accès interne doit être limité aux personnes pour qui le renseignement est nécessaire à l'exercice de leurs fonctions (art. 20).",
+          "Détruire ou anonymiser une fois les fins accomplies (art. 23) — sous réserve de la conservation minimale d'un an si le renseignement a servi à une décision (art. 11, al. 2)."
+        ],
+        "actionFr": "Vérifier pourquoi chaque identifiant est conservé. Le NAS en particulier est rarement nécessaire hors contexte fiscal ou d'emploi, et constitue le vecteur de vol d'identité le plus direct de cette catégorie."
+      }
+    },
+    {
+      "name": "Scope25-FinancialData",
+      "displayNameEn": "Financial Data",
+      "displayNameFr": "Données financières",
+      "tooltipEn": "Contains a credit/debit card number, bank account number, or specimen-cheque banking details.",
+      "tooltipFr": "Contient un numéro de carte de crédit/débit, de compte bancaire, ou les coordonnées bancaires d'un chèque spécimen.",
+      "priority": 3,
+      "triggerSits": [
+        "Credit Card Number",
+        "Canada Bank Account Number",
+        "Canada Cheque Transit and Institution Number (specimen cheque)"
+      ],
+      "loi25Note": "Financial identifiers are a common driver of the confidentiality-incident register requirement. Specimen cheques matter disproportionately here: they carry transit + institution + account together, which is the exact set needed to set up a direct deposit or fraudulent pre-authorized debit, and they circulate routinely through HR onboarding and supplier setup.",
+      "confidenceNote": "HIGH across the board. Credit cards: Microsoft built-in, Luhn-validated. Specimen cheque: custom entity anchored on Payments Canada Standard 006 section 4.4.3 (5-digit branch + 3-digit institution), validated against a partial list of recognized institution codes including Desjardins (815) and National Bank (006). Note the institution list in Quebec_SITs.xml is deliberately partial - extend it against Payments Canada's official FI list before production. Network-branded debit cards (Visa Debit, Debit Mastercard) are probably caught by the credit-card SIT since they share PAN structure, but Microsoft never explicitly confirms 'debit' - treat as probable, not confirmed.",
+      "dataTypesFr": [
+        "Numéro de carte de crédit ou de débit",
+        "Numéro de compte bancaire",
+        "Chèque spécimen : transit + institution + compte"
+      ],
+      "caiGuidance": {
+        "classificationFr": "Renseignement personnel à fort potentiel de préjudice financier.",
+        "obligationsFr": [
+          "Mesures de sécurité proportionnées à la sensibilité et au support (art. 10).",
+          "Un incident touchant cette catégorie déclenche très souvent l'analyse du risque de préjudice sérieux (art. 3.7) et l'avis à la Commission (art. 3.5, al. 2).",
+          "Le défaut de prendre les mesures de sécurité de l'art. 10 figure parmi les manquements pouvant entraîner une sanction administrative pécuniaire (art. 90.1, par. 4)."
+        ],
+        "actionFr": "Porter une attention particulière aux chèques spécimens : ils réunissent transit, institution et compte, soit exactement ce qu'il faut pour un dépôt direct frauduleux. Ils circulent surtout par courriel lors de l'embauche et de la mise en place de fournisseurs."
+      }
+    },
+    {
+      "name": "Scope25-Address",
+      "displayNameEn": "Address",
+      "displayNameFr": "Adresse",
+      "tooltipEn": "Contains a Quebec civic address.",
+      "tooltipFr": "Contient une adresse civique du Québec.",
+      "priority": 4,
+      "triggerSits": [
+        "Quebec Civic Address"
+      ],
+      "loi25Note": "Lower-sensitivity category on its own; still personal information, but not itself named 'sensitive' under Loi 25 unless combined with other data.",
+      "confidenceNote": "Medium-high confidence. The postal-code component is well-grounded (Canada Post's public FSA/LDU standard); the civic-address keyword list is necessarily approximate.",
+      "dataTypesFr": [
+        "Adresse civique du Québec (code postal G/H/J)"
+      ],
+      "caiGuidance": {
+        "classificationFr": "Renseignement personnel; non sensible en soi.",
+        "obligationsFr": [
+          "Une adresse permet d'identifier indirectement une personne : c'est un renseignement personnel (art. 2).",
+          "Elle n'est pas sensible en elle-même, MAIS la loi prévoit qu'un renseignement devient sensible « en raison du contexte de son utilisation ou de sa communication » (art. 12, al. 4, par. 2). Une adresse dans un dossier médical ou un dossier d'aide aux victimes est donc sensible.",
+          "Principe de nécessité (art. 5) et exactitude au moment d'une décision (art. 11, al. 1)."
+        ],
+        "actionFr": "Traiter comme catégorie de moindre priorité isolément, mais réévaluer partout où l'adresse coexiste avec des données de santé ou d'identité — c'est la combinaison qui crée le risque."
+      }
+    }
+  ],
+  "_dataMapNote": "Get-Scope25DataMap agrège par charge de travail (SharePoint, OneDrive, Exchange, Teams). Les noms de points de terminaison (sites SharePoint/OneDrive) ne sont récupérés que sur demande explicite, et les boîtes aux lettres nommées ne sont jamais énumérées : une liste d'employés nommés détenant des données de santé serait elle-même un document de renseignements personnels, en plus de constituer une carte de ciblage."
+}
