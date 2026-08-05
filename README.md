@@ -64,7 +64,7 @@ Invoke-Scope25Setup
 
 Installe les détecteurs québécois, publie les quatre étiquettes, note la date du déploiement et produit le **Guide Loi 25** : les 40 obligations avec leur base légale et les explications de la Commission. **Aucun chiffre de votre environnement à cette étape.**
 
-Le guide sert dès le jour 1. Les obligations d'organisation — nommer un responsable, tenir des registres, faire des ÉFVP, revoir le consentement — forment la majeure partie du référentiel et n'attendent aucun délai technique.
+Le guide sert dès le jour 1. Les obligations d'organisation — nommer un responsable, tenir des registres, faire des ÉFVP, revoir le consentement. Ceux-ci forment la majeure partie du référentiel et n'attendent aucun délai technique.
 
 ### Entre les deux — vérifier que la classification est faite
 
