@@ -4,6 +4,7 @@
 
 Outil libre et gratuit qui fait l'inventaire des renseignements personnels dans Microsoft 365 et les relie aux obligations de la **Loi 25**. Utile avant un incident pour être prêt, et après un incident pour savoir ce qui a été touché.
 
+> Version 1.5.0 · Licence Apache 2.0 · [Documentation technique](./docs/TECHNIQUE.md)
 
 ---
 
@@ -19,18 +20,15 @@ L'outil ne répond pas à cette question à votre place. Il rassemble les faits 
 
 ## Prérequis
 
-Ce qu'il faut avant de commencer. Le détail, les options d'achat et les commandes d'installation sont:
+Ce qu'il faut avant de commencer. Le détail, les options d'achat et les commandes d'installation sont dans [Préparer l'environnement](#préparer-lenvironnement).
 
-#Étape 1
 - **PowerShell 5.1 minimum**, 7.4 ou plus récent recommandé. Testé sur 7.4.6.
 - **Module `ExchangeOnlineManagement`** (3.0+) pour les deux étapes, **`Microsoft.Graph.Authentication`** (2.0+) pour l'étape 2. `Microsoft.Graph.Identity.Partner` seulement pour les MSSP.
 - **Licence Microsoft 365 E3 ou Business Premium** pour l'étape 1 : installer les détecteurs, publier les étiquettes, produire le guide.
 - **Licence E5, A5, G5 ou le module complémentaire Purview Suite pour l'étape 2.** L'inventaire passe par l'explorateur de contenu, réservé à ces licences. Sans ça, l'étape 1 fonctionne mais le graphique et la carte restent vides. **C'est le point le plus coûteux : réglez-le en premier.**
 - **Rôle Compliance Administrator** pour l'étape 1 (écriture, une seule fois).
-
-#Étape 2
-- **Pour l'étape 2, un rôle d'accès (*Compliance Administrator*, *Compliance Data Administrator*, *Security Administrator* ou *Global Administrator*) **et en plus** le groupe *Content Explorer List Viewer*.
-- **Journalisation d'audit unifiée (UAL) activée** dans le tenant. Plusieurs contrôles en dépendent.
+- **Pour l'étape 2, deux rôles qui ne s'additionnent pas :** un rôle d'accès (*Compliance Administrator*, *Compliance Data Administrator*, *Security Administrator* ou *Global Administrator*) **et en plus** le groupe *Content Explorer List Viewer*. N'attribuez pas *Content Explorer Content Viewer* : l'outil n'en a pas besoin.
+- **Journalisation d'audit unifiée activée** dans le tenant. Plusieurs contrôles en dépendent.
 - **Environ sept jours entre les deux étapes**, le temps que Purview indexe le contenu selon les nouveaux détecteurs.
 - **Droit d'écriture** sur `%ProgramData%\Scope25.Purview` (journal) et le dossier Téléchargements (rapports).
 - **Pour les MSSP :** relation GDAP active, appartenance au bon groupe de sécurité, et application autorisée dans le tenant du client.
@@ -228,6 +226,8 @@ Les points d'écriture, la journalisation d'audit et les exigences GDAP sont dan
 
 - Une erreur `AADSTS90099` à la connexion veut dire exactement une chose : l'application n'a pas encore été autorisée dans le tenant du client. C'est un consentement unique à donner une fois.
 - Le rapport s'ouvre dans n'importe quel navigateur récent, sans connexion Internet.
+
+Plus de détails dans la [documentation technique](./docs/TECHNIQUE.md).
 
 ---
 
