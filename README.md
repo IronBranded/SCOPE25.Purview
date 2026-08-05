@@ -1,4 +1,4 @@
-# Scope25.Purview
+# SCOPE25.Purview
 
 **Quelles données personnelles votre organisation a-t-elle, et où sont-elles?**
 
