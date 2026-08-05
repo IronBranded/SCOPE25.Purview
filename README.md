@@ -229,8 +229,6 @@ Les points d'écriture, la journalisation d'audit et les exigences GDAP sont dan
 - Une erreur `AADSTS90099` à la connexion veut dire exactement une chose : l'application n'a pas encore été autorisée dans le tenant du client. C'est un consentement unique à donner une fois.
 - Le rapport s'ouvre dans n'importe quel navigateur récent, sans connexion Internet.
 
-Plus de détails dans la [documentation technique](./docs/TECHNIQUE.md).
-
 ---
 
 ## État du projet et limites
