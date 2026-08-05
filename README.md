@@ -22,10 +22,6 @@ L'outil ne répond pas à cette question à votre place. Il rassemble les faits 
 
 Pour ce déploiement : **licence complète E5 / A5 / G5** (ou le module complémentaire Purview Suite équivalent) plutôt que l'essai de 90 jours, combinée à **Compliance Administrator + le groupe Content Explorer List Viewer** pour l'étape 2.
 
-Ce choix évite les trois pièges de l'essai gratuit (plafond de 25 licences, conversion automatique en abonnement payant, nettoyage des artefacts créés pendant l'essai) — pertinent si le tenant a déjà le budget pour une licence E5 permanente ou obtenue au mois via un partenaire.
-
-Ça ne règle pas pour autant la question du multiplexage : une seule licence sur le compte admin reste difficile à défendre pour analyser tout le tenant, peu importe si la licence vient d'un essai ou d'un achat. Faites confirmer par écrit avec votre revendeur ou Microsoft qui doit être licencié — voir la section *Prérequis* plus bas.
-
 ---
 
 ## Prérequis
