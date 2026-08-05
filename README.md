@@ -71,8 +71,6 @@ Ce n'est pas un choix de commodité, c'est une contrainte technique. Microsoft n
 ```powershell
 Import-Module ./Scope25.Purview/Scope25.Purview.psd1
 Connect-IPPSSession -UserPrincipalName admin@contoso.onmicrosoft.com
-
-Invoke-Scope25Setup -WhatIf     # aperçu, ne change rien
 Invoke-Scope25Setup
 ```
 
