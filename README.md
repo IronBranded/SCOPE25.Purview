@@ -1,4 +1,3 @@
-[README.md](https://github.com/user-attachments/files/30761730/README.md)
 # Scope25.Purview
 
 **Quelles données personnelles votre organisation a-t-elle, et où sont-elles?**
