@@ -97,7 +97,7 @@ L'outil relit la date de l'étape 1. Si le délai est trop court, il vous averti
 
 Un seul fichier HTML, en français, sans dépendance externe. Il s'ouvre hors ligne et s'imprime bien.
 
-- **Un graphique circulaire par type détecté** : numéros d'assurance maladie, NAS, cartes de crédit, chèques spécimens, certificats d'état civil, adresses. Ces comptes ne dépendent pas de l'étiquetage — un détecteur trouve le contenu même si personne n'a déployé d'étiquettes.
+- **Un graphique circulaire par type détecté** : numéros d'assurance maladie, NAS, cartes de crédit, chèques spécimens, certificats d'état civil, adresses. Ces comptes ne dépendent pas de l'étiquetage. Un détecteur trouve le contenu même si personne n'a déployé d'étiquettes.
 - **Une carte des données** : quatre catégories (santé, identité, financier, adresse), les services où elles se trouvent, et ce que la Loi 25 demande pour chacune, avec l'article.
 - **Les 40 obligations**, chacune avec ce qui a été observé, ou la note qu'aucun signal technique ne permet de la vérifier.
 
