@@ -1,6 +1,6 @@
 # Scope25.Purview — documentation technique
 
-> Pour la présentation générale, voir [`README.md`](../README.md).
+> Pour la présentation générale, voir [`README.md`](https://github.com/IronBranded/SCOPE25.Purview/blob/main/README.md).
 
 ## Prérequis
 
