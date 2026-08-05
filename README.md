@@ -98,7 +98,7 @@ Connect-Scope25Tenant
 Connect-IPPSSession -UserPrincipalName admin@contoso.onmicrosoft.com
 
 Invoke-Scope25Audit
-Invoke-Scope25Audit -IncludeEndpoints   # ajoute les noms de sites
+Invoke-Scope25Audit -IncludeEndpoints   # utiliser pour choisir un site spécifique
 ```
 
 L'outil relit la date de l'étape 1. Si le délai est trop court, il vous avertit et demande confirmation avant de produire un rapport trop tôt.
