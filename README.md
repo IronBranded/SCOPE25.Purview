@@ -8,7 +8,7 @@ Outil libre et gratuit qui fait l'inventaire des renseignements personnels dans 
 
 ---
 
-## Le problème
+## Le problème = inventaire du type de données identifiables et confidentielles
 
 La plupart des organisations ne savent pas exactement quelles données personnelles elles détiennent, ni dans quels systèmes elles se trouvent.
 
