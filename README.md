@@ -27,7 +27,8 @@ Ce qu'il faut avant de commencer. Le détail, les options d'achat et les command
 - **Licence Microsoft 365 E3 ou Business Premium** pour l'étape 1 : installer les détecteurs, publier les étiquettes, produire le guide.
 - **Licence E5, A5, G5 ou le module complémentaire Purview Suite pour l'étape 2.** L'inventaire passe par l'explorateur de contenu, réservé à ces licences. Sans ça, l'étape 1 fonctionne mais le graphique et la carte restent vides. **C'est le point le plus coûteux : réglez-le en premier.**
 - **Rôle Compliance Administrator** pour l'étape 1 (écriture, une seule fois).
-- **Pour l'étape 2, deux rôles qui ne s'additionnent pas :** un rôle d'accès (*Compliance Administrator*, *Compliance Data Administrator*, *Security Administrator* ou *Global Administrator*) **et en plus** le groupe *Content Explorer List Viewer*. N'attribuez pas *Content Explorer Content Viewer* : l'outil n'en a pas besoin.
+
+- **Pour l'étape 2 :** un rôle d'accès (*Compliance Administrator*, *Compliance Data Administrator*, *Security Administrator* ou *Global Administrator*) **et en plus** le groupe *Content Explorer List Viewer*. N'attribuez pas *Content Explorer Content Viewer* : l'outil n'en a pas besoin.
 - **Journalisation d'audit unifiée activée** dans le tenant. Plusieurs contrôles en dépendent.
 - **Environ sept jours entre les deux étapes**, le temps que Purview indexe le contenu selon les nouveaux détecteurs.
 - **Droit d'écriture** sur `%ProgramData%\Scope25.Purview` (journal) et le dossier Téléchargements (rapports).
