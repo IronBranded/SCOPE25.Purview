@@ -18,12 +18,6 @@ L'outil ne répond pas à cette question à votre place. Il rassemble les faits 
 
 ---
 
-## Décision de déploiement retenue
-
-Pour ce déploiement : **licence complète E5 / A5 / G5** (ou le module complémentaire Purview Suite équivalent) plutôt que l'essai de 90 jours, combinée à **Compliance Administrator + le groupe Content Explorer List Viewer** pour l'étape 2.
-
----
-
 ## Prérequis
 
 - **PowerShell 7+ recommandé** (fonctionne à partir de 5.1, mais visez 7+). Testé sur 7.4.6.
